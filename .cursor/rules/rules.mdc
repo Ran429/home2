@@ -1,0 +1,162 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+# 지방재정교육연구원 홈페이지 프로젝트 룰
+
+## 프로젝트 개요
+- **프로젝트명**: 지방재정교육연구원(KLEA) 기관 홈페이지
+- **기술 스택**: Next.js 14 + TypeScript + Tailwind CSS + Prisma + PostgreSQL
+
+## 핵심 기술 스택
+
+### Frontend
+- **Framework**: Next.js 14.2.4 (App Router)
+- **Language**: TypeScript
+- **Styling**: Tailwind CSS + DaisyUI + Shadcn/ui
+- **State**: React Hook Form + Zod validation
+- **Editor**: TinyMCE
+- **UI Library**: Radix UI 컴포넌트들
+
+### Backend & Database
+- **Database**: PostgreSQL (Prisma ORM)
+- **Authentication**: NextAuth 5.0.0-beta
+- **File Storage**: Supabase Storage
+- **Package Manager**: pnpm
+
+## 폴더 구조 규칙
+
+### App Router 구조
+```
+src/app/
+├── (admin)/          # 관리자 페이지 라우트 그룹
+│   └── admin/
+├── (root)/           # 사용자 페이지 라우트 그룹
+└── globals.css       # 전역 스타일
+```
+
+### 컴포넌트 구조
+```
+src/components/
+├── admin/            # 관리자 전용 컴포넌트
+├── board/            # 게시판 관련 컴포넌트
+├── business/         # 사업소개 관련 컴포넌트
+├── common/           # 공통 컴포넌트
+├── ui/               # Shadcn/ui 베이스 컴포넌트
+└── [feature]/        # 기능별 컴포넌트
+```
+
+## 데이터베이스 모델
+
+### 주요 테이블
+- `Board`: 게시판 (공지사항, 갤러리 등)
+- `Department`: 부서 정보
+- `Employee`: 직원 정보
+- `AdminAccount`: 관리자 계정
+- `AdminMaintenanceBoard`: 유지보수 게시판
+- `AssociateCompany`: 연관 사이트/배너
+- `Config`: 사이트 설정 (팝업 등)
+
+### 공통 필드 패턴
+- `isActive`: 활성화 상태
+- `sortOrder`: 정렬 순서
+- `createdAt`, `updatedAt`: 생성/수정 시간
+
+## 인증 및 라우팅 규칙
+
+### 인증 시스템
+- NextAuth 5.0 사용
+- 관리자 페이지는 `/admin` 경로에서 인증 필요
+- 세션 만료: 7일 (갱신: 1일)
+
+### 라우트 보호
+- `/admin/*`: 인증 필요 (로그인/회원가입 제외)
+- Middleware에서 인증 상태 확인
+
+## 파일 업로드 규칙
+
+### Supabase Storage
+- 버킷: `klea_uploads` (업로드), `klea_static` (정적)
+- 이미지 최적화: Next.js Image 컴포넌트 사용
+- 파일 다운로드: Server Action으로 처리
+
+### 클라이언트 업로드 방식 (권장)
+**Vercel body 사이즈 제한 해결을 위해 클라이언트에서 직접 Supabase 업로드**
+
+#### Form 컴포넌트 패턴
+```typescript
+// 1. ClientFileUtil import
+import ClientFileUtil from "@/lib/client-file-util";
+import { UploadFileResult } from "@/@types/upload-file";
+
+// 2. 파일 업로드 함수
+async function handleFileUpload() {
+  const files = filesRef.current?.files;
+  const fileUploadResults: UploadFileResult[] = [];
+  
+  if (files) {
+    const fileArray = Array.from(files);
+    const response = await ClientFileUtil.uploadFiles(
+      fileArray,
+      fileArray.map((it) => it.name)
+    );
+    
+    if (response.ok) {
+      fileUploadResults.push(...response.results);
+    } else {
+      return { ok: false, error: response.error };
+    }
+  }
+  
+  return { ok: true, fileUploadResults };
+}
+
+// 3. 폼 제출 시 업로드 후 액션 호출
+const { fileUploadResults, ok } = await handleFileUpload();
+if (!ok) return;
+
+const response = await action(formData, fileUploadResults);
+```
+
+#### Server Action 패턴
+```typescript
+// 1. UploadFileResult 파라미터 추가
+export default async function action(
+  formData: FormData,
+  fileUploadResults: UploadFileResult[]
+) {
+  // 2. 기존 ServerFileUtil 제거, 업로드 결과만 사용
+  const data = {
+    ...validatedParam.data,
+    ...(fileUploadResults.length > 0 && { files: fileUploadResults })
+  };
+}
+```
+
+#### 핵심 장점
+- **성능**: 클라이언트에서 직접 Supabase 업로드로 서버 부하 감소
+- **제한 해결**: Vercel body 사이즈 제한 우회
+- **분리된 처리**: 파일 업로드와 DB 저장 분리로 더 나은 에러 처리
+
+## 코딩 컨벤션
+
+### 파일명
+- 컴포넌트: kebab-case (예: `board-search.tsx`)
+- 타입 정의: `.d.ts` 확장자
+- Server Action: `.action.ts` 접미사
+
+### 컴포넌트 구조
+- 기능별 폴더 구조
+- UI 컴포넌트와 비즈니스 로직 분리
+- 공통 컴포넌트는 `components/common`에 배치
+
+### 스타일링
+- Tailwind CSS 유틸리티 클래스 우선
+- CSS 변수를 통한 테마 관리
+- break-keep 속성으로 한글 줄바꿈 최적화
+
+## 개발 환경
+- 개발 서버: `pnpm dev` (포트 13000)
+- 빌드: Prisma generate → Next.js build
+- 데이터베이스: `pnpm db-push`로 스키마 동기화

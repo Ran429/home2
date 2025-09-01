@@ -1,0 +1,12 @@
+User-Agent: Googlebot
+User-Agent: Applebot
+User-Agent: Bingbot
+User-Agent: Yeti
+Allow: /
+
+User-Agent: *
+Disallow: /admin
+
+Sitemap: https://www.klea.re.kr/sitemap.xml
+
+#DaumWebMasterTool:d7fd47dac770ad8ef61b89c0ecf2a397ced5c5778b126a03769e7f571cb29a2d:ZNenkkdm3rbIGaJ8SVPDEg==
