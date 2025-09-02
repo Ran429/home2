@@ -1,5 +1,3 @@
-// src/components/admin/activities/admin-activities-tab.tsx
-
 "use client";
 
 import { BoardType, BoardTypes } from "@/constants/board-type";

@@ -1,9 +1,7 @@
-// src/components/admin/activities/admin-activities-search.tsx
-
 "use client";
 
 import SelectBox from "@/components/common/select-box";
-import { BoardSearchTypes } from "@/constants/board-search-type";
+import { EmpoloyeeSearchTypes } from "@/constants/employee-search-type";
 import { HOVER_EMPHASIZE } from "@/lib/classname-util";
 import { cn } from "@/lib/utils";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
@@ -56,7 +54,7 @@ export default function AdminActivitiesSearch() {
       <SelectBox
         triggerClassname="w-full lg:w-[200px]"
         popoverClassname="max-w-sm lg:w-[200px]"
-        values={BoardSearchTypes}
+        values={EmpoloyeeSearchTypes}
         onChangeValue={onChangeSearchType}
         defaultValue={searchType}
         open={openSelect}
