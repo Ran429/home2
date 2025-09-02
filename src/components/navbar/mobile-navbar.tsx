@@ -1,43 +1,28 @@
 "use client";
 
-import useScrollHeight from "@/hooks/use-scroll-height";
-import { HOVER_CLASSNAME } from "@/lib/classname-util";
-import { FONT_PRETENDARD } from "@/lib/font-util";
-import { cn } from "@/lib/utils";
-import Image from "next/image";
 import Link from "next/link";
-import MobileMenu from "./mobile-menu";
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { Menu as MenuIcon } from "lucide-react";
+import MobileMenu from "./mobile-menu"; // ✅ import 해서 사용
 
-export default function MobileNavBar() {
-  const { isTop } = useScrollHeight();
-
+export default function MobileNavbar() {
   return (
-    <nav
-      className={cn(
-        FONT_PRETENDARD.className,
-        "top-0 w-full text-black z-20 fixed shadow-lg h-[80px] px-5",
-        isTop ? "bg-white/50 backdrop-blur" : "bg-white"
-      )}
-    >
-      <div className="font-bold flex items-center h-full">
-        <Link
-          className={cn(
-            "flex-none mr-auto flex justify-center items-center",
-            HOVER_CLASSNAME
-          )}
-          href="/"
-        >
-          <Image
-            src="/images/logo/logo_mobile.png"
-            alt="logo"
-            width={136}
-            height={44}
-            priority
-          />
+    <header className="w-full fixed top-0 left-0 z-50 h-[60px] bg-white/80 backdrop-blur-sm shadow-md">
+      <div className="container mx-auto flex justify-between items-center h-full px-4">
+        <Link href="/" className="font-bold text-lg text-gray-800">
+          인간취약성연구소
         </Link>
-
-        <MobileMenu />
+        <Sheet>
+          <SheetTrigger asChild>
+            <button className="p-2">
+              <MenuIcon className="h-6 w-6" />
+            </button>
+          </SheetTrigger>
+          <SheetContent side="right" className="w-[300px]">
+            <MobileMenu />
+          </SheetContent>
+        </Sheet>
       </div>
-    </nav>
+    </header>
   );
 }

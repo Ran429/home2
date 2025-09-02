@@ -1,60 +1,38 @@
-import MainBoard from "@/components/main/board/main-board";
-import MainBoardSkeleton from "@/components/main/board/main-board-skeleton";
-import MainBusiness from "@/components/main/business/main-business";
-import MainCarousel from "@/components/main/carousel/main-carousel";
-import MainGallery from "@/components/main/gallery/main-gallery";
-import MainGallerySkeleton from "@/components/main/gallery/main-gallery-skeleton";
-import MainAssociateCompany from "@/components/main/main-associate-company";
-import MainInfoSytem from "@/components/main/main-info-system";
-import { Skeleton } from "@/components/ui/skeleton";
-import { cn } from "@/lib/utils";
-import AssociateCompanyDB from "@/server/prisma/associate-company.db";
-import { sleep } from "@/server/prisma/config.db";
-import { Suspense } from "react";
+// This is the new main page for the Human Vulnerability Research Institute.
 
-export default async function Home() {
+import RecentPosts from "@/components/main/recent-posts";
+
+export default function Home() {
   return (
-    <>
-      <MainCarousel />
-
-      <Suspense fallback={<MainBoardSkeleton />}>
-        <MainBoard />
-      </Suspense>
-
-      <MainBusiness />
-
-      <section className="w-full relative z-0">
-        <div
-          className={cn(
-            "container flex container:px-0",
-            "pc lg:flex-row lg:gap-5 lg:pt-20 lg:pb-24",
-            "mobile flex-col gap-10 pt-[58px] pb-20 px-4"
-          )}
-        >
-          <Suspense fallback={<MainGallerySkeleton />}>
-            <MainGallery />
-          </Suspense>
+    <div className="flex flex-col items-center">
+      {/* 1. Main Banner Section */}
+      <section className="w-full h-[60vh] bg-gray-200 flex items-center justify-center">
+        {/* Replace with a background image */}
+        <div className="text-center">
+          <h1 className="text-5xl font-extrabold text-gray-800">인간취약성연구소</h1>
+          <p className="mt-4 text-lg text-gray-600">
+            Institute for Human Vulnerability
+          </p>
         </div>
-        <div className="bg-[#F4F7FF] absolute bottom-0 w-full h-[140%] -z-10 left-0"></div>
       </section>
 
-      <MainInfoSytem />
-      <Suspense
-        fallback={
-          <Skeleton
-            className={cn(
-              "w-full h-[134px] -mb-20 shadow-[rgba(0,0,0,0.25)_0_3px_10px]"
-            )}
-          />
-        }
-      >
-        <MainAssociateCompanyHelper />
-      </Suspense>
-    </>
-  );
-}
+      {/* 2. Recent Posts Section */}
+      <main className="container mx-auto py-16 px-4 space-y-16">
+        <RecentPosts 
+          title="연구소 행사"
+          category="events"
+        />
 
-async function MainAssociateCompanyHelper() {
-  const associateCompanies = await AssociateCompanyDB.findAllActive();
-  return <MainAssociateCompany associateCompanies={associateCompanies} />;
+        <RecentPosts 
+          title="교육 및 워크숍"
+          category="activities"
+        />
+
+        <RecentPosts 
+          title="연구성과"
+          category="achievements"
+        />
+      </main>
+    </div>
+  );
 }

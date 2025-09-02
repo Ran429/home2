@@ -28,15 +28,9 @@ const config = {
         "gradient-1/2": "linear-gradient(180deg, var(--tw-gradient-stops))",
       },
       colors: {
-        klea_box_border: "#DDDDDD",
-        klea_box_border2: "#EEEEEE",
-
-        klea_text_disabled: "#AAAAAA",
-        klea_text_primary: "#2F5BC1",
-        klea_text_emphasize: "#2A52AE", // main color 90% + black mix
-
-        klea_bg_gray: "#F8F8F8",
-        klea_bg_deep_gray: "#F9F9F9",
+        hvri_primary: "#233A38",   // 딥 그린/네이비 톤 (로고 기본)
+        hvri_secondary: "#4F6462", // 중간 회색-녹색 톤
+        hvri_accent: "#5C4433",    // 브라운 포인트 컬러
 
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
@@ -94,19 +88,35 @@ const config = {
       animation: {
         "accordion-down": "accordion-down 0.5s ease-out",
         "accordion-up": "accordion-up 0.5s ease-out",
-        "unfold-down": "unfold-down 0.5s east-out",
+        "unfold-down": "unfold-down 0.5s ease-out",
       },
     },
   },
   plugins: [require("tailwindcss-animate"), require("daisyui")],
   safelist: [
     "transition-colors",
-    "hover:text-klea_text_primary",
-    "active:text-klea_text_primary",
+
+    // Primary
+    "hover:text-hvri_primary",
+    "active:text-hvri_primary",
+    "active:bg-hvri_primary",
+    "hover:bg-hvri_primary",
+
+    // Secondary
+    "hover:text-hvri_secondary",
+    "active:text-hvri_secondary",
+    "active:bg-hvri_secondary",
+    "hover:bg-hvri_secondary",
+
+    // Accent
+    "hover:text-hvri_accent",
+    "active:text-hvri_accent",
+    "active:bg-hvri_accent",
+    "hover:bg-hvri_accent",
+
+    // Typography
     "hover:font-bold",
     "active:font-bold",
-    "active:bg-klea_text_emphasize",
-    "hover:bg-klea_text_emphasize",
   ],
 
   daisyui: {
@@ -114,7 +124,7 @@ const config = {
       {
         light: {
           ...require("daisyui/src/theming/themes")["light"],
-          primary: "#2F5BC1",
+          primary: "#233A38", // hvri_primary
         },
       },
     ],

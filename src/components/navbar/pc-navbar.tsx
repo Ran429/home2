@@ -1,102 +1,40 @@
 "use client";
 
-import useScrollHeight from "@/hooks/use-scroll-height";
-import { HOVER_CLASSNAME } from "@/lib/classname-util";
-import { FONT_PRETENDARD } from "@/lib/font-util";
-import { cn } from "@/lib/utils";
-import { MagnifyingGlassIcon } from "@heroicons/react/24/solid";
-import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { cn } from "@/lib/utils";
+import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
-import PcMenu from "./pc-menu";
+import PcMenu from "./pc-menu"; // ✅ import 해서 사용
 
-export default function PcNavBar() {
-  const [visibleMenu, setVisibleMenu] = useState<boolean>(false);
-  const { isTop } = useScrollHeight();
-  const [searchKeyword, setSearchKeyword] = useState<string>("");
-  const router = useRouter();
-
-  function search() {
-    if (searchKeyword === "") {
-      alert("검색어를 입력하세요.");
-      return;
-    }
-
-    setSearchKeyword("");
-    router.push("/search?keyword=" + searchKeyword);
-  }
+export default function PcNavbar() {
+  const pathname = usePathname();
+  const [isScrolled, setIsScrolled] = useState(false);
 
   useEffect(() => {
-    function handleOuterClickSearchInput(event: MouseEvent) {
-      const target = event.target as HTMLElement;
-      if (target.id !== "search_input") {
-        setSearchKeyword("");
-      }
-    }
-    document.addEventListener("click", handleOuterClickSearchInput);
-
-    return () =>
-      document.removeEventListener("click", handleOuterClickSearchInput);
-  });
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 10);
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   return (
-    <nav
+    <header
       className={cn(
-        FONT_PRETENDARD,
-        "top-0 w-full text-black z-20 fixed",
-        "h-[100px] bg-white px-4",
-        visibleMenu ? "bg-opacity-100" : "bg-opacity-50",
-        isTop ? "backdrop-blur" : "!bg-white shadow-md"
+        "w-full fixed top-0 left-0 z-50 transition-all duration-300",
+        isScrolled || !pathname.startsWith("/introduction")
+          ? "bg-white/80 backdrop-blur-sm shadow-md"
+          : "bg-transparent"
       )}
     >
-      <div className="container font-bold flex flex-row items-center justify-center h-full">
-        <Link
-          className={cn(
-            "flex-none mr-auto flex justify-center items-center",
-            "pc lg:w-[25vw] max-w-[295px] lg:h-[50%]"
-          )}
-          href="/"
-        >
-          <Image
-            src="/images/logo/logo_big.png"
-            alt="logo"
-            width={0}
-            height={0}
-            sizes="25vw"
-            className="w-full aspect-auto"
-            priority
-          />
+      <div className="container mx-auto flex justify-between items-center h-[70px]">
+        <Link href="/" className="font-bold text-xl text-gray-800">
+          인간취약성연구소
         </Link>
-
-        <PcMenu onChangeVisibleMenu={(visible) => setVisibleMenu(visible)} />
-
-        <div
-          className={cn(
-            "ml-32 flex-row gap-3 justify-center items-center py-3 px-4 bg-white",
-            "border-[#BBBBBB] border-2 rounded-[30px]",
-            "pc hidden xl:flex"
-          )}
-        >
-          <input
-            id="serach_input"
-            type="text"
-            placeholder="검색어를 입력해주세요"
-            className="pl-2 placeholder:text-[#AAAAAA] placeholder:font-bold placeholder:text-sm outline-none"
-            value={searchKeyword}
-            onChange={(e) => setSearchKeyword(e.target.value)}
-            onKeyDown={(e) => {
-              if (e.key === "Enter") {
-                search();
-              }
-            }}
-          />
-          <MagnifyingGlassIcon
-            className={cn("size-7 cursor-pointer", HOVER_CLASSNAME)}
-            onClick={() => search()}
-          />
-        </div>
+        <nav>
+          <PcMenu />
+        </nav>
       </div>
-    </nav>
+    </header>
   );
 }

@@ -45,6 +45,9 @@
     "vaul": "^0.9.1",
     "zod": "^3.23.8"
   },
+  "prisma": {
+    "seed": "ts-node prisma/seed.ts"
+  },
   "devDependencies": {
     "@types/adm-zip": "^0.5.5",
     "@types/bcrypt": "^5.0.2",
@@ -59,6 +62,7 @@
     "postcss": "^8",
     "prisma": "^5.20.0",
     "tailwindcss": "^3.4.1",
+    "ts-node": "^10.9.2",
     "typescript": "^5"
   },
   "packageManager": "pnpm@9.7.1+sha256.46f1bbc8f8020aa9869568c387198f1a813f21fb44c82f400e7d1dbde6c70b40"

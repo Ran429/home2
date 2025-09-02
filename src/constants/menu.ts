@@ -1,150 +1,51 @@
-/**
- * 전체 사이트의 메뉴를 관리하는 변수
- *
- * 해당 menu 변수 추가 시
- * 사이트맵
- * 상단 navbar
- * 에 반영됩니다
- */
-export const KLEA_MENU = [
+// Defines the navigation structure for the Human Vulnerability Research Institute website.
+
+export interface NavItem {
+  label: string;
+  href: string;
+  subItems?: NavItem[];
+}
+
+export const MENU_ITEMS: NavItem[] = [
   {
-    text: "주요사업",
-    depth: 1,
-    hash: "#business",
-    children: [
-      {
-        text: "사업소개",
-        depth: 2,
-        href: "/business",
-      },
-      {
-        text: "지방교육행정기관 재정투자사업 투자심사 지원",
-        depth: 2,
-        children: [
-          {
-            text: "재정투자심사 지원",
-            depth: 3,
-            href: "/business/regional/investment",
-          },
-        ],
-        href: undefined,
-      },
-      {
-        text: "교육행정기관 컨설팅 및 시스템 운영ㆍ관리",
-        depth: 2,
-        children: [
-          {
-            text: "학교설립 담당업무 교육지원 프로그램 운영",
-            depth: 3,
-            href: "/business/operating/educational",
-          },
-          {
-            text: "학생배치ㆍ학교설립 지원시스템 운영ㆍ관리",
-            depth: 3,
-            href: "/business/operating/establishment",
-          },
-          {
-            text: "학구도 정보시스템 운영ㆍ관리",
-            depth: 3,
-            href: "/business/operating/system",
-          },
-        ],
-        href: undefined,
-        hasBottomDivider: true,
-      },
-      {
-        text: "지방교육행정기관 타당성조사",
-        depth: 2,
-        href: "/business/feasibility",
-      },
-      {
-        text: "특별교부금 운영ㆍ지원",
-        depth: 2,
-        href: "/business/special-grant",
-      },
+    label: "소개",
+    href: "/introduction",
+    subItems: [
+      { label: "인간취약성이란?", href: "/introduction/what-is-vulnerability" },
+      { label: "연구소의 연혁과 철학", href: "/introduction/history-and-philosophy" },
+      { label: "연구소 한눈에 보기", href: "/introduction/at-a-glance" },
+      { label: "함께하는 이들", href: "/introduction/people" },
+      { label: "윤리 및 운영 헌장", href: "/introduction/ethics-charter" },
     ],
   },
   {
-    text: "KLEA 소식",
-    depth: 1,
-    hash: "#news",
-    children: [
-      {
-        text: "공지사항",
-        depth: 2,
-        href: "/board/notice",
-      },
-      {
-        text: "채용정보",
-        depth: 2,
-        href: "/board/recruit",
-      },
-      {
-        text: "입찰공고",
-        depth: 2,
-        href: "/board/bidding",
-      },
-      {
-        text: "갤러리",
-        depth: 2,
-        href: "/board/gallery",
-      },
+    label: "주요활동",
+    href: "/activities",
+    subItems: [
+      { label: "연구 프로젝트", href: "/activities/research-projects" },
+      { label: "교육 및 워크숍", href: "/activities/education-workshops" },
+      { label: "사회공헌활동", href: "/activities/social-contribution" },
     ],
   },
   {
-    text: "정보자료",
-    depth: 1,
-    hash: "#info",
-    children: [
-      {
-        text: "정보시스템",
-        depth: 2,
-        href: "/info",
-      },
-      {
-        text: "법령자료",
-        depth: 2,
-        href: "/board/legal",
-      },
-      {
-        text: "보도자료",
-        depth: 2,
-        href: "/board/press",
-      },
+    label: "성과",
+    href: "/achievements",
+    subItems: [
+      { label: "연구성과", href: "/achievements/research-outcomes" },
+      { label: "출판물 및 보고서", href: "/achievements/publications-reports" },
+      { label: "미디어 보도", href: "/achievements/media-coverage" },
     ],
   },
   {
-    text: "KLEA 소개",
-    depth: 1,
-    hash: "#introduce",
-    children: [
-      {
-        text: "소개",
-        depth: 2,
-        href: "/introduce",
-      },
-      {
-        text: "연혁",
-        depth: 2,
-        href: "/introduce/timeline",
-      },
-      {
-        text: "조직 및 업무",
-        depth: 2,
-        href: "/introduce/organization",
-      },
-      {
-        text: "로고 소개",
-        depth: 2,
-        href: "/introduce/logo",
-      },
-      {
-        text: "찾아오시는 길",
-        depth: 2,
-        href: "/introduce/map",
-      },
+    label: "행사·소식",
+    href: "/events",
+    subItems: [
+      { label: "연구소 행사", href: "/events/institute-events" },
+      { label: "연구소 공시·공고", href: "/events/announcements" },
     ],
+  },
+  {
+    label: "파트너십",
+    href: "/partnerships",
   },
 ];
-
-export const FIRST_MENU = KLEA_MENU.filter((menu) => menu.depth === 1);
