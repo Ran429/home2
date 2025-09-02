@@ -12,7 +12,7 @@ const INSTITUTE_INFO = {
   ADDRESS: "서울특별시 ○○구 ○○로 123, 인간취약성연구소",
   PHONE: "02-123-4567",
   FAX: "02-987-6543",
-  EMAIL: "thevulerables@naver.com",
+  EMAIL: "thevulnerables@naver.com",
 };
 
 export default function Footer() {
