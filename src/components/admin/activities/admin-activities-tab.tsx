@@ -1,3 +1,5 @@
+// src/components/admin/activities/admin-activities-tab.tsx
+
 "use client";
 
 import { BoardType, BoardTypes } from "@/constants/board-type";
@@ -10,7 +12,7 @@ type Props = {
   classname?: string;
 };
 
-export default function AdminBoardTab({ currentBoardType, classname }: Props) {
+export default function AdminActivitiesTab({ currentBoardType, classname }: Props) {
   const searchParams = useSearchParams();
   const router = useRouter();
 
@@ -37,7 +39,7 @@ export default function AdminBoardTab({ currentBoardType, classname }: Props) {
           className={cn(
             "font-semibold lg:text-xl text-lg pb-3",
             !currentBoardType
-              ? "text-klea_text_primary border-klea_text_primary border-b-[3px]"
+              ? "text-hvri_primary border-hvri_primary border-b-[3px]"
               : "text-[#555555]"
           )}
         >
@@ -46,14 +48,14 @@ export default function AdminBoardTab({ currentBoardType, classname }: Props) {
           </button>
         </li>
         {/* 정보시스템은 게시판이 아니므로 제외 */}
-        {BoardTypes.filter((boardType) => boardType.code !== "INFO").map(
+        {BoardTypes.filter((boardType: BoardType) => boardType.code !== "INFO").map(
           (boardType) => (
             <li
               key={boardType.code}
               className={cn(
                 "font-semibold lg:text-xl text-lg pb-3",
                 currentBoardType === boardType.code
-                  ? "text-klea_text_primary border-klea_text_primary border-b-[3px]"
+                  ? "text-hvri_primary border-hvri_primary border-b-[3px]"
                   : "text-[#555555]"
               )}
             >

@@ -1,28 +1,22 @@
+// src/components/admin/activities/admin-activities-search.tsx
+
 "use client";
 
 import SelectBox from "@/components/common/select-box";
-import { ActivitySearchTypes } from "@/constants/activity-search-type";
+import { BoardSearchTypes } from "@/constants/board-search-type";
 import { HOVER_EMPHASIZE } from "@/lib/classname-util";
 import { cn } from "@/lib/utils";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useRef, useState } from "react";
-import { useToast } from "@/components/ui/use-toast";
-
-const QUERY_KEYS = {
-  SEARCH_TYPE: "search_type",
-  KEYWORD: "keyword",
-  PAGE: "page",
-};
 
 export default function AdminActivitiesSearch() {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const inputRef = useRef<HTMLInputElement>(null);
-  const { toast } = useToast();
 
-  const [searchType, setSearchType] = useState<string>(
-    searchParams.get(QUERY_KEYS.SEARCH_TYPE) ?? ActivitySearchTypes[0].code
+  const [searchType, setSearchType] = useState<string | undefined>(
+    searchParams.get("search_type") ?? "title"
   );
   const [openSelect, setOpenSelect] = useState<boolean>(false);
 
@@ -32,30 +26,29 @@ export default function AdminActivitiesSearch() {
 
   function onClickSearch() {
     if (!searchType) {
-      toast({ title: "검색 조건을 선택해주세요", variant: "destructive" });
+      alert("검색 조건을 선택해주세요");
       setOpenSelect(true);
       return;
     }
 
-    const keyword = inputRef.current?.value?.trim();
+    const keyword = inputRef.current?.value;
     if (!keyword) {
-      toast({ title: "검색어를 입력해주세요", variant: "destructive" });
-      inputRef.current?.focus();
+      alert("검색어를 입력해주세요");
+      inputRef?.current?.focus();
       return;
     }
 
     const urlSearchParams = new URLSearchParams(searchParams.toString());
-    urlSearchParams.set(QUERY_KEYS.PAGE, "1");
-    urlSearchParams.set(QUERY_KEYS.SEARCH_TYPE, searchType);
-    urlSearchParams.set(QUERY_KEYS.KEYWORD, keyword);
-
+    urlSearchParams.set("page", "1");
+    urlSearchParams.set("search_type", searchType);
+    urlSearchParams.set("keyword", keyword);
     router.push(`${pathname}?${urlSearchParams.toString()}`);
   }
 
   return (
     <div
       className={cn(
-        "mt-10 bg-hvri_background w-full rounded-[20px] py-10 px-4",
+        "mt-10 bg-[#F7F8FB] w-full rounded-[20px] py-10 px-4",
         "flex flex-col justify-center items-center gap-[9px]",
         "pc lg:flex-row"
       )}
@@ -63,7 +56,7 @@ export default function AdminActivitiesSearch() {
       <SelectBox
         triggerClassname="w-full lg:w-[200px]"
         popoverClassname="max-w-sm lg:w-[200px]"
-        values={ActivitySearchTypes}
+        values={BoardSearchTypes}
         onChangeValue={onChangeSearchType}
         defaultValue={searchType}
         open={openSelect}
@@ -74,9 +67,9 @@ export default function AdminActivitiesSearch() {
         <input
           type="text"
           placeholder="검색어를 입력해주세요"
-          className="text-base w-full bg-white rounded-md border border-gray-300 px-3 py-3 placeholder:text-base"
+          className="text-base w-full bg-white rounded-md border border-[#DDDDDD] px-3 py-3 placeholder:text-base"
           ref={inputRef}
-          defaultValue={searchParams.get(QUERY_KEYS.KEYWORD) ?? ""}
+          defaultValue={searchParams.get("keyword") ?? ""}
           onKeyDown={(e) => {
             if (e.key === "Enter") {
               onClickSearch();

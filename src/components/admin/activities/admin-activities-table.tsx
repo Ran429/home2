@@ -19,7 +19,7 @@ type Props = {
   totalItemCount: number;
 };
 
-export default function AdminBoardTable({
+export default function AdminActivitiesTable({
   items,
   currentPage,
   totalItemCount,
@@ -70,7 +70,7 @@ export default function AdminBoardTable({
                   href={`/admin/board/${item.id}`}
                   className={cn(
                     HOVER_CLASSNAME,
-                    "max-w-full inline-block text-ellipsis whitespace-nowrap overflow-hidden text-[#2149A6] hover:underline",
+                    "max-w-full inline-block text-ellipsis whitespace-nowrap overflow-hidden text-hvri_primary hover:underline",
                     "text-[15px] lg:text-[17px]"
                   )}
                 >
@@ -82,7 +82,7 @@ export default function AdminBoardTable({
                   <span
                     className={cn(
                       "text-sm font-medium lg:text-base text-[#777777]",
-                      "border-2 border-klea_box_border rounded-[5px]",
+                      "border-2 border-gray-300 rounded-[5px]",
                       "px-4 py-[0.3rem] inline-block"
                     )}
                   >
