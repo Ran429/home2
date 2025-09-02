@@ -19,7 +19,7 @@ const ImageAndTitles = {
     title: "홈페이지 가이드",
   },
   introduce: {
-    image: "/images/background/ihv_bg_title.png", // IHV 관련 이미지로 교체
+    image: "/images/background/ihv_bg_title.jpg", 
     title: "연구소 소개", // 'KLEA 소개'를 '연구소 소개'로 변경
   },
   business: {

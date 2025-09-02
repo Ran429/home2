@@ -1,3 +1,5 @@
+// src/components/admin/activities/admin-activities-table.tsx
+
 import {
   Table,
   TableBody,

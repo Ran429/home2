@@ -12,7 +12,11 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/drawer";
+import {
+  Sheet,
+  SheetContent,
+  SheetTrigger,
+} from "@/components/ui/sheet";
 import { MENU_ITEMS, NavItem } from "@/constants/menu";
 import { cn } from "@/lib/utils";
 import { Menu as MenuIcon } from "lucide-react";
@@ -168,7 +172,7 @@ function PcNavbar() {
     <header
       className={cn(
         "w-full fixed top-0 left-0 z-50 transition-all duration-300",
-        isScrolled || !pathname.startsWith("/introduce")
+        isScrolled || !pathname.startsWith("/introduction")
           ? "bg-white/80 backdrop-blur-sm shadow-md"
           : "bg-transparent"
       )}
