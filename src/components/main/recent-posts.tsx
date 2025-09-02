@@ -1,8 +1,10 @@
+// src/components/main/recent-posts.tsx
 import { prisma } from "@/server/prisma/prisma.client";
 import { Post } from "@prisma/client";
 import { ArrowRight } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { MENU_ITEMS } from "@/constants/menu"; // 메뉴 항목을 가져옴
 
 /**
  * 게시물 하나를 표시하는 카드 컴포넌트
@@ -69,12 +71,15 @@ export default async function RecentPosts({
     take: 3,
   });
 
+  // 해당 카테고리의 "더보기" 링크를 찾습니다.
+  const viewMoreLink = MENU_ITEMS.find((item) => item.href.includes(category))?.href || "#";
+
   return (
     <div className="w-full">
       <div className="flex justify-between items-center mb-6 pb-2 border-b-2 border-gray-800">
         <h2 className="text-2xl md:text-3xl font-bold">{title}</h2>
         <Link
-          href={`/${category}`}
+          href={viewMoreLink}
           className="flex items-center text-gray-600 hover:text-blue-600 transition-colors"
         >
           더보기 <ArrowRight className="ml-1 h-5 w-5" />

@@ -21,7 +21,7 @@ export default function EmailPolicyDialog({ content }: Props) {
       <DialogTrigger asChild>
         <FooterButton title="이메일 무단수집 거부" />
       </DialogTrigger>
-      <DialogContent className="bg-klea_bg_gray">
+      <DialogContent className="bg-muted">
         <DialogHeader>
           <div className="flex flex-row items-center justify-between">
             <DialogTitle>이메일 무단수집 거부</DialogTitle>

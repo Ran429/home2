@@ -1,3 +1,5 @@
+// src/components/common/represent-background.tsx
+
 import { cn } from "@/lib/utils";
 import Image from "next/image";
 
@@ -17,12 +19,12 @@ const ImageAndTitles = {
     title: "홈페이지 가이드",
   },
   introduce: {
-    image: "/images/background/introduce/bg_title.png",
-    title: "KLEA 소개",
+    image: "/images/background/ihv_bg_title.png", // IHV 관련 이미지로 교체
+    title: "연구소 소개", // 'KLEA 소개'를 '연구소 소개'로 변경
   },
   business: {
     image: "/images/background/bg_business_title.png",
-    title: "주요사업",
+    title: "주요활동", // '주요사업'을 '주요활동'으로 변경 (MENU_ITEMS와 통일)
   },
   board: {
     image: "/images/background/bg_notice.png",

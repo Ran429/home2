@@ -21,7 +21,7 @@ export default function CopyrightPolicyDialog({ content }: Props) {
       <DialogTrigger asChild>
         <FooterButton title="저작권 보호정책" />
       </DialogTrigger>
-      <DialogContent className="bg-klea_bg_gray">
+      <DialogContent className="bg-muted">
         <DialogHeader>
           <div className="flex flex-row justify-between">
             <DialogTitle>저작권 보호정책</DialogTitle>

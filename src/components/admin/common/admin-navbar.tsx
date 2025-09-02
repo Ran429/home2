@@ -1,3 +1,5 @@
+// src/components/admin/common/admin-navbar.tsx
+
 "use client";
 
 import useScrollHeight from "@/hooks/use-scroll-height";
@@ -11,22 +13,17 @@ export default function AdminNavBar() {
   const pathname = usePathname();
 
   const adminMenu = [
-    { text: "게시물 관리", href: "/admin/board?page=1", group: "/admin/board" },
+    { text: "콘텐츠 관리", href: "/admin/posts?page=1", group: "/admin/posts" },
     {
-      text: "연관사이트 관리",
-      href: "/admin/associate-company",
-      group: "/admin/associate-company",
+      text: "파트너 관리",
+      href: "/admin/partners",
+      group: "/admin/partners",
     },
-    { text: "사이트 관리", href: "/admin/site", group: "/admin/site" },
+    { text: "회원 관리", href: "/admin/members", group: "/admin/members" },
     {
-      text: "조직도 관리",
-      href: "/admin/organization/department",
-      group: "/admin/organization",
-    },
-    {
-      text: "유지보수 현황",
-      href: "/admin/maintenance",
-      group: "/admin/maintenance",
+      text: "사이트 설정",
+      href: "/admin/settings",
+      group: "/admin/settings",
     },
   ];
 
@@ -43,11 +40,11 @@ export default function AdminNavBar() {
         <Link
           className={cn(
             "flex-none mr-auto hover:opacity-50 active:opacity-50 transition-opacity flex justify-center items-center",
-            "text-2xl text-klea_text_primary"
+            "text-2xl text-hvri_primary"
           )}
-          href="/admin/board"
+          href="/admin/posts"
         >
-          한국지방교육행정연구재단 관리자
+          인간취약성연구소 관리자
         </Link>
 
         <ul className="flex flex-row gap-8 justify-center text-lg z-20">
@@ -57,9 +54,9 @@ export default function AdminNavBar() {
                 href={href}
                 className={cn(
                   "transition-colors border-b-2 border-transparent",
-                  "hover:text-klea_text_primary hover:border-klea_text_primary py-[38px]",
+                  "hover:text-hvri_primary hover:border-hvri_primary py-[38px]",
                   pathname.startsWith(group)
-                    ? "text-klea_text_primary border-klea_text_primary"
+                    ? "text-hvri_primary border-hvri_primary border-b-[3px]"
                     : ""
                 )}
               >

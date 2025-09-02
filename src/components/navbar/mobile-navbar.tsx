@@ -1,3 +1,5 @@
+// src/components/navbar/mobile-navbar.tsx
+
 "use client";
 
 import Link from "next/link";
@@ -9,7 +11,7 @@ export default function MobileNavbar() {
   return (
     <header className="w-full fixed top-0 left-0 z-50 h-[60px] bg-white/80 backdrop-blur-sm shadow-md">
       <div className="container mx-auto flex justify-between items-center h-full px-4">
-        <Link href="/" className="font-bold text-lg text-gray-800">
+        <Link href="/" className="font-bold text-lg text-hvri_primary">
           인간취약성연구소
         </Link>
         <Sheet>

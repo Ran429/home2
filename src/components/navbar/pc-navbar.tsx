@@ -1,3 +1,5 @@
+// src/components/navbar/pc-navbar.tsx
+
 "use client";
 
 import Link from "next/link";
@@ -28,7 +30,7 @@ export default function PcNavbar() {
       )}
     >
       <div className="container mx-auto flex justify-between items-center h-[70px]">
-        <Link href="/" className="font-bold text-xl text-gray-800">
+        <Link href="/" className="font-bold text-xl text-hvri_primary">
           인간취약성연구소
         </Link>
         <nav>

@@ -11,7 +11,7 @@ export const MENU_ITEMS: NavItem[] = [
     label: "소개",
     href: "/introduction",
     subItems: [
-      { label: "인간취약성이란?", href: "/introduction/what-is-vulnerability" },
+      { label: "인간취약성이란", href: "/introduction/what-is-vulnerability" },
       { label: "연구소의 연혁과 철학", href: "/introduction/history-and-philosophy" },
       { label: "연구소 한눈에 보기", href: "/introduction/at-a-glance" },
       { label: "함께하는 이들", href: "/introduction/people" },

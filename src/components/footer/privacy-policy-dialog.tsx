@@ -1,3 +1,5 @@
+// src/components/footer/privacy-policy-dialog.tsx
+
 import {
   Dialog,
   DialogContent,
@@ -21,10 +23,11 @@ export default function PrivacyPolicyDialog({ content }: Props) {
       <DialogTrigger asChild>
         <FooterButton
           title="개인정보처리방침"
-          classname="!bg-klea_text_primary !border-none"
+          // `hvri_primary` 색상을 사용하는 새로운 클래스로 변경
+          classname="!bg-hvri_primary !border-none" 
         />
       </DialogTrigger>
-      <DialogContent className="bg-klea_bg_gray">
+      <DialogContent className="bg-muted">
         <DialogHeader>
           <div className="flex flex-row justify-between">
             <DialogTitle>개인정보처리방침</DialogTitle>
@@ -33,7 +36,7 @@ export default function PrivacyPolicyDialog({ content }: Props) {
 
           <DialogDescription
             className={cn(
-              "bg-white px-6 py-7 !mt-6 text-[#555555] min-h-[300px] max-h-[400px] overflow-y-auto",
+              "bg-background px-6 py-7 !mt-6 text-foreground min-h-[300px] max-h-[400px] overflow-y-auto",
               "text-[15px] lg:text-base break-keep"
             )}
             dangerouslySetInnerHTML={{ __html: content }}
