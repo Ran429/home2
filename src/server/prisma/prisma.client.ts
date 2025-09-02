@@ -1,5 +1,14 @@
 import { PrismaClient } from "@prisma/client";
 
+const isProd = process.env.NODE_ENV === "production";
+
+const logger = {
+  debug: (...args: unknown[]) => {
+    if (!isProd) console.debug(...args);
+  },
+};
+
+
 const prismaClient = new PrismaClient({
   log: [
     {
@@ -30,11 +39,10 @@ prismaClient.$on("query", (e) => {
     if (e.query === "DEALLOCATE ALL") return;
     if (e.query === "COMMIT") return;
 
-    console.log(`
-    Query: ${e.query}
-    Params: ${e.params}
-    Duration: ${e.duration}ms
-    `);
+
+    logger.debug(
+      `\n    Query: ${e.query}\n    Params: ${e.params}\n    Duration: ${e.duration}ms\n    `,
+    );
   }
 });
 
