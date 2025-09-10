@@ -9,8 +9,6 @@ generator client {
 datasource db {
   provider  = "postgresql"
   url       = env("DATABASE_URL")   // Transaction Pooler (런타임)
-  directUrl = env("DIRECT_URL")     // Session Pooler (마이그레이션/DDL)
-  // (선택) shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
 }
 
 // A generic model for all content: pages, posts, gallery items, etc.
