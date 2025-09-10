@@ -53,19 +53,19 @@ export function MainCarouselScrollButton() {
 const slides = [
   {
     id: 1,
-    image: "/images/background/main/bg_carousel1.jpg",
+    image: "/images/background/main/bg_carousel1.webp",
     title: "인간취약성연구소",
     description: "Human Vulnerability Research Institute",
   },
   {
     id: 2,
-    image: "/images/background/main/bg_carousel2.png",
+    image: "/images/background/main/bg_carousel2.webp",
     title: "연구와 교육",
     description: "취약성 극복을 위한 지식과 실천",
   },
   {
     id: 3,
-    image: "/images/background/main/bg_carousel3.jpg",
+    image: "/images/background/main/bg_carousel3.webp",
     title: "사회적 공헌",
     description: "함께하는 사회를 향해",
   },
