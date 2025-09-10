@@ -3,7 +3,7 @@ import Credentials from "next-auth/providers/credentials";
 import { authConfig } from "./auth.config";
 import { getAdminAccount } from "./server/prisma/admin-account.db";
 import bcrypt from "bcrypt";
-import { LoginSchema } from "./app/(admin)/admin/auth/login/schema";
+import { LoginSchema } from "@/components/admin/auth/login/schema";
 
 export const { auth, signIn, signOut } = NextAuth({
   ...authConfig,
