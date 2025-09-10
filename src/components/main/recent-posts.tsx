@@ -42,7 +42,6 @@ function PostCard({ post }: { post: Post }) {
           {post.title}
         </h3>
         <p className="mt-2 text-gray-600 line-clamp-2 h-12">
-          {/* 본문 일부를 미리보기로 출력 */}
           {post.content.slice(0, 80)}...
         </p>
       </div>
@@ -52,6 +51,7 @@ function PostCard({ post }: { post: Post }) {
 
 /**
  * 특정 카테고리의 최신 게시물 목록을 표시하는 섹션 컴포넌트
+ * ✅ 서버 컴포넌트로 동작 (Prisma 호출 안전)
  */
 export default async function RecentPosts({
   title,
@@ -62,8 +62,8 @@ export default async function RecentPosts({
 }) {
   const posts = await prisma.post.findMany({
     where: {
-      category: category,
-      isActive: true, // 🔹 published 대신 isActive 사용
+      category,
+      isActive: true,
     },
     orderBy: {
       createdAt: "desc",
@@ -71,8 +71,9 @@ export default async function RecentPosts({
     take: 3,
   });
 
-  // 해당 카테고리의 "더보기" 링크를 찾습니다.
-  const viewMoreLink = MENU_ITEMS.find((item) => item.href.includes(category))?.href || "#";
+  // 해당 카테고리의 "더보기" 링크
+  const viewMoreLink =
+    MENU_ITEMS.find((item) => item.href.includes(category))?.href || "#";
 
   return (
     <div className="w-full">
@@ -87,7 +88,7 @@ export default async function RecentPosts({
       </div>
       {posts.length > 0 ? (
         <div className="space-y-6">
-          {posts.slice(0, 1).map((post) => (
+          {posts.map((post) => (
             <PostCard key={post.id} post={post} />
           ))}
         </div>
