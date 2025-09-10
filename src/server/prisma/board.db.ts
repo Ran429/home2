@@ -1,9 +1,10 @@
 import type { MainBoardType } from "@/@types/board-types";
-import { BoardType, BoardTypes } from "@/constants/board-type";
-import type { Board } from "@prisma/client";   // 타입만 import
+import { BoardTypeMap, BoardTypes } from "@/constants/board-type"; // ✅ 값 가져오기
+import type { BoardType } from "@/constants/board-type";           // ✅ 타입 가져오기
+import type { Board } from "@prisma/client";
 import { prisma } from "./prisma.client";
 
-type BoardTypeValue = typeof BoardType[keyof typeof BoardType];
+type BoardTypeValue = BoardType;
 /**
  * 메인페이지에서 사용할 게시판 아이템 로드
  */
@@ -48,7 +49,7 @@ export async function getMainGalleryItems() {
       images: true,
     },
     where: {
-      boardType: BoardType.GALLERY.code,
+      boardType: BoardTypeMap.GALLERY.code,
       isActive: true,
     },
     orderBy: {
