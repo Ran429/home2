@@ -3,6 +3,7 @@
 import * as React from "react";
 import Autoplay from "embla-carousel-autoplay";
 import Image from "next/image";
+import { useRef } from "react";
 import {
   Carousel,
   CarouselContent,
@@ -72,13 +73,15 @@ const slides = [
 
 // ✅ 최종 메인 캐러셀 컴포넌트
 export default function MainCarousel() {
+  const autoplay = useRef(
+      Autoplay({ delay: 5000, stopOnInteraction: false })
+    );
+
   return (
     <section className="relative w-full h-screen overflow-hidden">
       <Carousel
         opts={{ loop: true }}
-        plugins={[
-          Autoplay({ delay: 5000, stopOnInteraction: false }) as any,
-        ]}
+        plugins={[autoplay.current]}
         className="w-full h-full"
       >
         <CarouselContent>
