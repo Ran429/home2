@@ -15,42 +15,58 @@ datasource db {
 
 // A generic model for all content: pages, posts, gallery items, etc.
 model Post {
-  id          Int      @id @default(autoincrement())
-  // Main category from the menu (e.g., 'introduction', 'activities', 'achievements')
-  category    String
-  // Sub-category or specific page identifier (e.g., 'history', 'projects', 'publications')
-  slug        String   @unique
-  // Content type to determine the layout (Type1: Page, Type2: List, Type4: Gallery)
-  contentType String   @map("content_type")
+  id            Int      @id @default(autoincrement())
+  category      String
+  slug          String   @unique
+  contentType   String   @map("content_type")
 
-  title       String
-  content     String
-  // For featured images (e.g., in list or gallery thumbnails)
+  title         String
+  content       String
   featuredImage Json?    @map("featured_image")
-  // For gallery images or other media
-  images      Json?
-  // For file attachments
-  files       Json?
-  
-  viewCount   Int      @default(0) @map("view_count")
-  isActive    Boolean  @default(true) @map("is_active")
-  isImportant Boolean  @default(false) @map("is_important") // For highlighting posts
-  createdBy   String   @map("created_by")
-  createdAt   DateTime @default(now()) @map("created_at")
-  updatedAt   DateTime @updatedAt @map("updated_at")
+  images        Json?
+  files         Json?
+
+  viewCount     Int      @default(0) @map("view_count")
+  isActive      Boolean  @default(true) @map("is_active")
+  isImportant   Boolean  @default(false) @map("is_important")
+  createdBy     String   @map("created_by")
+  createdAt     DateTime @default(now()) @map("created_at")
+  updatedAt     DateTime @updatedAt @map("updated_at")
 
   @@index([category, isActive])
   @@index([contentType, isActive])
   @@map("td_post")
 }
 
+//
+// Board 모델 (공지사항, 갤러리, 입찰공고 등 여러 게시판 구분용)
+//
+model Board {
+  id        Int      @id @default(autoincrement())
+  boardType String
+  title     String
+  content   String
+  images    Json?
+  files     Json?
 
-// Model for partner logos/links (replaces AssociateCompany)
+  viewCount Int      @default(0)
+  isActive  Boolean  @default(true)
+  createdBy String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([boardType, isActive])
+  @@map("td_board")
+}
+
+//
+// Partner 모델 (협력사/파트너 로고 관리)
+//
 model Partner {
   id          Int      @id @default(autoincrement())
-  name        String   // Partner's name
+  name        String
   logoImage   Json     @map("logo_image")
-  link        String?  // Optional link to partner's website
+  link        String?
   description String?
   sortOrder   Int      @default(0) @map("sort_order")
   isActive    Boolean  @default(true) @map("is_active")
@@ -61,8 +77,9 @@ model Partner {
   @@map("td_partner")
 }
 
-
-// Admin account model remains the same
+//
+// 관리자 계정
+//
 model AdminAccount {
   id        Int      @id @default(autoincrement())
   userId    String   @unique @map("user_id")
@@ -74,14 +91,15 @@ model AdminAccount {
   @@map("td_admin_account")
 }
 
-
-// Model for research institute members (people in organization)
+//
+// 조직도/멤버
+//
 model Member {
   id        Int      @id @default(autoincrement())
   name      String
   role      String
-  photoUrl  String?   @map("photo_url") // 이미지 경로 or 업로드 URL
-  bio       String?   // 간단한 소개
+  photoUrl  String?   @map("photo_url")
+  bio       String?
   isActive  Boolean  @default(true) @map("is_active")
   sortOrder Int      @default(0)    @map("sort_order")
   createdAt DateTime @default(now()) @map("created_at")

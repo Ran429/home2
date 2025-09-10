@@ -15,7 +15,10 @@
     "incremental": true,
     "baseUrl": "src",
     "paths": {
-      "@/*": ["*"]
+      "@/*": ["*"],
+      "@/partner/*": ["app/(admin)/admin/(feature)/partner/*"],
+      "@/partner/create/*": ["app/(admin)/admin/(feature)/partner/create/*"]
+
     },
     "plugins": [
       {

@@ -1,8 +1,9 @@
 import type { MainBoardType } from "@/@types/board-types";
 import { BoardType, BoardTypes } from "@/constants/board-type";
-import { Board } from "@prisma/client";
+import type { Board } from "@prisma/client";   // 타입만 import
 import { prisma } from "./prisma.client";
 
+type BoardTypeValue = typeof BoardType[keyof typeof BoardType];
 /**
  * 메인페이지에서 사용할 게시판 아이템 로드
  */
@@ -58,7 +59,7 @@ export async function getMainGalleryItems() {
 }
 
 export function getBoardItem(boardId: number) {
-  return prisma.board.findUnique({
+  return prisma.board.findFirst({
     where: {
       id: boardId,
       isActive: true,
@@ -73,7 +74,7 @@ export function getBoardItem(boardId: number) {
  * @returns
  */
 async function getBoardItemWithPrevNext(boardType: string, boardId: number) {
-  const item = await prisma.board.findUnique({
+  const item = await prisma.board.findFirst({
     where: {
       boardType,
       id: boardId,
@@ -143,8 +144,7 @@ export async function getBoardItems({
   searchType,
 }: {
   page: number;
-  boardType?: BoardType;
-
+  boardType?: BoardTypeValue;
   searchType?: string;
   keyword?: string;
 }) {
@@ -216,13 +216,9 @@ export async function getBoardItems({
   };
 }
 
-export async function updateViewCount(boardType: BoardType, id: number) {
+export async function updateViewCount(id: number) {
   await prisma.board.update({
-    where: {
-      id,
-      boardType: boardType.code,
-      isActive: true,
-    },
+    where: { id },
     data: { viewCount: { increment: 1 } },
   });
 }
