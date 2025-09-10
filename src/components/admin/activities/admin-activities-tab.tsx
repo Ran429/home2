@@ -1,9 +1,8 @@
 "use client";
-
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { BoardType, BoardTypes } from "@/constants/board-type";
 import { HOVER_CLASSNAME } from "@/lib/classname-util";
 import { cn } from "@/lib/utils";
-import { useRouter, useSearchParams } from "next/navigation";
 
 type Props = {
   currentBoardType?: string;
@@ -12,6 +11,7 @@ type Props = {
 
 export default function AdminActivitiesTab({ currentBoardType, classname }: Props) {
   const searchParams = useSearchParams();
+  const pathname = usePathname(); 
   const router = useRouter();
 
   function handleAllClick() {
@@ -22,13 +22,13 @@ export default function AdminActivitiesTab({ currentBoardType, classname }: Prop
     router.push(`/admin/board?${urlSearchParams.toString()}`);
   }
 
-  function handleTabClick(boardType: BoardType) {
-    const urlSearchParams = new URLSearchParams(searchParams.toString());
-    urlSearchParams.set("page", "1");
-    urlSearchParams.set("board_type", boardType.code);
-
-    router.push(`/admin/board?${urlSearchParams.toString()}`);
-  }
+  
+    function handleTabClick(boardType: BoardType) {
+      const urlSearchParams = new URLSearchParams(searchParams.toString());
+      urlSearchParams.set("page", "1");
+      urlSearchParams.set("board_type", boardType.code);
+      router.push(`${pathname}?${urlSearchParams.toString()}`);
+    }
 
   return (
     <div className={cn("w-full relative z-10 mt-10", classname)}>
