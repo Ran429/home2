@@ -1,13 +1,13 @@
-import SubNavbar from "../../components/common/sub-navbar";
-import { MENU_ITEMS } from "../../constants/menu";
+import SubNavbar from "@/components/common/sub-navbar";
+import { MENU_ITEMS, NavItem } from "@/constants/menu";
 
 export default function IntroductionLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  // '소개' 메뉴 (/introduction) 데이터를 찾습니다.
-  const introductionMenu = MENU_ITEMS.find((item) =>
+  // introduction 메뉴만 찾음
+  const introductionMenu: NavItem | undefined = MENU_ITEMS.find((item) =>
     item.href.startsWith("/introduction")
   );
 
