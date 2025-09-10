@@ -1,11 +1,9 @@
 "use client";
 
-import SelectBox from "@/components/common/select-box";
-import { EmpoloyeeSearchTypes } from "@/constants/employee-search-type";
 import { HOVER_EMPHASIZE } from "@/lib/classname-util";
 import { cn } from "@/lib/utils";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { useRef, useState } from "react";
+import { useRef } from "react";
 
 export default function AdminActivitiesSearch() {
   const router = useRouter();
@@ -13,22 +11,7 @@ export default function AdminActivitiesSearch() {
   const searchParams = useSearchParams();
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const [searchType, setSearchType] = useState<string | undefined>(
-    searchParams.get("search_type") ?? "title"
-  );
-  const [openSelect, setOpenSelect] = useState<boolean>(false);
-
-  function onChangeSearchType(value: { code: string; text: string }) {
-    setSearchType(value.code);
-  }
-
   function onClickSearch() {
-    if (!searchType) {
-      alert("검색 조건을 선택해주세요");
-      setOpenSelect(true);
-      return;
-    }
-
     const keyword = inputRef.current?.value;
     if (!keyword) {
       alert("검색어를 입력해주세요");
@@ -38,7 +21,6 @@ export default function AdminActivitiesSearch() {
 
     const urlSearchParams = new URLSearchParams(searchParams.toString());
     urlSearchParams.set("page", "1");
-    urlSearchParams.set("search_type", searchType);
     urlSearchParams.set("keyword", keyword);
     router.push(`${pathname}?${urlSearchParams.toString()}`);
   }
@@ -51,16 +33,6 @@ export default function AdminActivitiesSearch() {
         "pc lg:flex-row"
       )}
     >
-      <SelectBox
-        triggerClassname="w-full lg:w-[200px]"
-        popoverClassname="max-w-sm lg:w-[200px]"
-        values={EmpoloyeeSearchTypes}
-        onChangeValue={onChangeSearchType}
-        defaultValue={searchType}
-        open={openSelect}
-        key={openSelect.toString()}
-      />
-
       <div className="w-full lg:max-w-[600px] flex flex-row gap-[9px]">
         <input
           type="text"
