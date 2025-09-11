@@ -12,7 +12,7 @@ export default async function RecentGalleryPosts({
   viewMoreLink: string;
 }) {
   const posts = await prisma.gallery.findMany({
-    where: { galleryType: category, isActive: true },
+    where: { galleryType: category },
     orderBy: { createdAt: "desc" },
     take: 3,
   });

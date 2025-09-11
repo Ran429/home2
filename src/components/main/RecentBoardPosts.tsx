@@ -12,7 +12,7 @@ export default async function RecentBoardPosts({
   viewMoreLink: string;
 }) {
   const posts = await prisma.board.findMany({
-    where: { boardType: category, isActive: true },
+    where: { boardType: category },
     orderBy: { createdAt: "desc" },
     take: 3,
   });
