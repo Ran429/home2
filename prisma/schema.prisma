@@ -50,7 +50,7 @@ model Gallery {
 model Partner {
   id          Int      @id @default(autoincrement())
   name        String
-  logoImage   Json     @map("logo_image")
+  logoImage   String   @map("logo_image")
   link        String?
   description String?
   sortOrder   Int      @default(0) @map("sort_order")

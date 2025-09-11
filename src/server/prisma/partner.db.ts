@@ -10,12 +10,12 @@ async function create(
     sort_order,
     description,
   }: z.infer<typeof CreatePartnerSchema>,
-  image: UploadFile[]
+    image: { url: string }[] // UploadFile → url 있는 구조
 ) {
   return prisma.partner.create({
     data: {
       name,
-      logoImage: image,
+      logoImage: image[0]?.url || "", // ✅ 문자열만 저장
       link,
       sortOrder: sort_order,
       description,

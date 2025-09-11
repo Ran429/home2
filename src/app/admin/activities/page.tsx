@@ -19,11 +19,11 @@ export default async function AdminActivitiesPage({
 
   return (
     <main className="flex-1 container mx-auto p-6">
-      <h1 className="text-2xl font-bold mb-6">행사 관리</h1>
+      <h1 className="text-2xl font-bold mb-6">게시판 글 관리</h1>
 
       {/* ✅ 글 작성하기 버튼 */}
       <div className="flex justify-end mb-4">
-        <Link href="/admin/activities/new">
+        <Link href="/admin/activities/create">
           <Button>글 작성하기</Button>
         </Link>
       </div>

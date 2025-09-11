@@ -4,12 +4,15 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import Image from "next/image"; // ✅ 추가
+
 
 type Partner = {
   id: number;
   name: string;
   link?: string;
   description?: string;
+  logoImage?: string[]; // ✅ Supabase 업로드 URL 배열
 };
 
 export default function PartnersPage() {
@@ -76,33 +79,39 @@ export default function PartnersPage() {
       </form>
 
       {/* 목록 */}
-      <ul className="space-y-4">
+      <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {partners.map((partner) => (
           <li
             key={partner.id}
-            className="p-4 border rounded flex justify-between items-center"
+            className="p-4 border rounded bg-white shadow flex flex-col items-center text-center"
           >
-            <div>
-              <h2 className="font-semibold">{partner.name}</h2>
-              <p className="text-sm text-gray-500">{partner.description}</p>
-              {partner.link && (
-                <a
-                  href={partner.link}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-blue-600 text-sm"
-                >
-                  {partner.link}
-                </a>
-              )}
-            </div>
+            {/* ✅ 로고 이미지 */}
+            {partner.logoImage && partner.logoImage.length > 0 && (
+              <Image
+                src={partner.logoImage[0]}
+                alt={`${partner.name} 로고`}
+                fill
+                className="object-contain"
+              />
+            )}
+
+            <h2 className="font-semibold">{partner.name}</h2>
+            <p className="text-sm text-gray-500 mb-2">{partner.description}</p>
+            {partner.link && (
+              <a
+                href={partner.link}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-blue-600 text-sm mb-2"
+              >
+                {partner.link}
+              </a>
+            )}
+
             <div className="flex gap-2">
-              {/* 수정 버튼 */}
               <Link href={`/admin/partners/${partner.id}/edit`}>
                 <Button variant="outline">수정</Button>
               </Link>
-
-              {/* 삭제 버튼 */}
               <Button
                 variant="destructive"
                 onClick={() => handleDelete(partner.id)}
