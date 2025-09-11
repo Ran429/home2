@@ -1,20 +1,29 @@
-// This is the new main page for the Institute for Human Vulnerability.
-
-import RecentPosts from "@/components/main/recent-posts";
 import MainCarousel from "@/components/main/carousel/main-carousel";
+import RecentBoardPosts from "@/components/main/RecentBoardPosts";
+import RecentGalleryPosts from "@/components/main/RecentGalleryPosts";
+
 export const dynamic = "force-dynamic";
 
 export default function Home() {
   return (
     <div className="flex flex-col items-center">
-      {/* 1. Main Banner Section → 캐러셀로 교체 */}
       <MainCarousel />
-
-      {/* 2. Recent Posts Section */}
       <main className="container mx-auto py-16 px-4 space-y-16">
-        <RecentPosts title="연구소 행사" category="events" />
-        <RecentPosts title="교육 및 워크숍" category="activities" />
-        <RecentPosts title="연구성과" category="achievements" />
+        <RecentBoardPosts
+          title="연구소 행사"
+          category="institute-events"
+          viewMoreLink="/events/institute-events"
+        />
+        <RecentGalleryPosts
+          title="교육 및 워크숍"
+          category="education-workshops"
+          viewMoreLink="/activities/education-workshops"
+        />
+        <RecentBoardPosts
+          title="연구성과"
+          category="research-projects"
+          viewMoreLink="/activities/research-projects"
+        />
       </main>
     </div>
   );
