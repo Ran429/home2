@@ -14,7 +14,14 @@ import {
 } from "@/components/ui/table";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { useRouter, useSearchParams } from "next/navigation"; // ✅ 추가
 
 type BoardItem = {
   id: number;
@@ -44,6 +51,9 @@ export default function BoardList({
 
   const totalPages = Math.ceil(totalItemCount / pageSize);
 
+  const router = useRouter(); // ✅ 라우터
+  const searchParams = useSearchParams(); // ✅ 현재 query 가져오기
+
   return (
     <div className="w-full space-y-6">
       {/* 🔍 검색 영역 */}
@@ -69,7 +79,8 @@ export default function BoardList({
             const query = new URLSearchParams();
             if (keyword) query.set("keyword", keyword);
             if (searchType) query.set("searchType", searchType);
-            window.location.href = `${basePath}?${query.toString()}`;
+            query.set("page", "1"); // 검색하면 항상 첫 페이지로 이동
+            router.push(`${basePath}?${query.toString()}`); // ✅ 안전 이동
           }}
         >
           검색
@@ -92,7 +103,10 @@ export default function BoardList({
             </TableHeader>
             <TableBody>
               {items.map((item, index) => (
-                <TableRow key={item.id} className="hover:bg-gray-50 transition-colors">
+                <TableRow
+                  key={item.id}
+                  className="hover:bg-gray-50 transition-colors"
+                >
                   <TableCell className="text-center">
                     {totalItemCount - (currentPage - 1) * pageSize - index}
                   </TableCell>
@@ -108,7 +122,9 @@ export default function BoardList({
                     {item.createdBy ?? "관리자"} {/* ✅ null 안전 처리 */}
                   </TableCell>
                   <TableCell className="text-center text-gray-500">
-                    {format(new Date(item.createdAt), "yyyy.MM.dd", { locale: ko })}
+                    {format(new Date(item.createdAt), "yyyy.MM.dd", {
+                      locale: ko,
+                    })}
                   </TableCell>
                 </TableRow>
               ))}
@@ -126,9 +142,9 @@ export default function BoardList({
               variant={page === currentPage ? "default" : "outline"}
               size="sm"
               onClick={() => {
-                const query = new URLSearchParams(window.location.search);
+                const query = new URLSearchParams(searchParams.toString());
                 query.set("page", page.toString());
-                window.location.href = `${basePath}?${query.toString()}`;
+                router.push(`${basePath}?${query.toString()}`); // ✅ 안전 이동
               }}
             >
               {page}

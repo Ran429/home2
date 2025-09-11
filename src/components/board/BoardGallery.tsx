@@ -5,6 +5,7 @@ import { ko } from "date-fns/locale";
 import Link from "next/link";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
+import { useRouter, useSearchParams } from "next/navigation"; // ✅ 추가
 
 // ✅ 갤러리 전용 타입
 type GalleryItem = {
@@ -30,6 +31,8 @@ export default function BoardGallery({
   basePath = "",
   pageSize = 9,
 }: BoardGalleryProps) {
+  const router = useRouter(); // ✅ 라우터 사용
+  const searchParams = useSearchParams();
   const totalPages = Math.ceil(totalItemCount / pageSize);
 
   return (
@@ -40,8 +43,7 @@ export default function BoardGallery({
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
           {items.map((item) => {
-            const thumbnail =
-              item.thumbnail || "/images/default-thumbnail.png";
+            const thumbnail = item.thumbnail || "/images/default-thumbnail.png";
 
             return (
               <Link
@@ -83,9 +85,9 @@ export default function BoardGallery({
               variant={page === currentPage ? "default" : "outline"}
               size="sm"
               onClick={() => {
-                const query = new URLSearchParams(window.location.search);
+                const query = new URLSearchParams(searchParams.toString());
                 query.set("page", page.toString());
-                window.location.href = `${basePath}?${query.toString()}`;
+                router.push(`${basePath}?${query.toString()}`); // ✅ 안전한 네비게이션
               }}
             >
               {page}
