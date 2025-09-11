@@ -29,7 +29,7 @@ function PostCard({ post }: { post: Board }) {
     >
       <div className="overflow-hidden rounded-lg border">
         <Image
-          src={getThumbnailUrl()}
+          src={getThumbnailUrl() ?? "/images/default-thumbnail.png"}
           alt={post.title}
           width={400}
           height={300}

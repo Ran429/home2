@@ -33,7 +33,7 @@ export default async function RecentGalleryPosts({
               id={post.id}
               title={post.title}
   content={post.description ?? ""} 
-              imageUrl={post.thumbnail || (post.images as any)?.[0]?.url}
+              imageUrl={post.thumbnail ?? "/images/default-thumbnail.png"}
               href={`/activities/${post.galleryType}/${post.id}`}
             />
           ))}
