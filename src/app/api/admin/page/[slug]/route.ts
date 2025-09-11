@@ -6,9 +6,9 @@ export async function GET(
   req: Request,
   { params }: { params: { slug: string } }
 ) {
-  const page = await prisma.page.findUnique({
-    where: { slug: params.slug },
-  });
+  const page = await prisma.singlePage.findUnique({
+  where: { slug: params.slug },
+});
 
   if (!page) {
     return NextResponse.json({ error: "Page not found" }, { status: 404 });
@@ -23,7 +23,7 @@ export async function PUT(
 ) {
   const { title, content } = await req.json();
 
-  const updated = await prisma.page.update({
+  const updated = await prisma.singlePage.update({
     where: { slug: params.slug },
     data: { title, content },
   });
