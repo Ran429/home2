@@ -14,21 +14,21 @@ export default async function MediaCoveragePage({
   const galleryType = GalleryTypeMap.MEDIA_COVERAGE;
   const currentPage = Number(searchParams?.page) || 1;
 
-let searchType: "title" | "description" | "all" | undefined;
-if (
-  searchParams?.searchType === "title" ||
-  searchParams?.searchType === "description" ||
-  searchParams?.searchType === "all"
-) {
-  searchType = searchParams.searchType;
-}
+  // ✅ searchType 안전하게 처리
+  const allowedSearchTypes = ["title", "description", "all"] as const;
+  const searchType = allowedSearchTypes.includes(
+    searchParams?.searchType as any
+  )
+    ? (searchParams?.searchType as typeof allowedSearchTypes[number])
+    : undefined;
 
-const items = await getGalleryItems({
-  galleryType: GalleryTypeMap.MEDIA_COVERAGE.code,
-  page: currentPage,
-  keyword: searchParams?.keyword,
-  searchType,
-});
+  // ✅ 갤러리 데이터 가져오기
+  const items = await getGalleryItems({
+    galleryType: galleryType.code,
+    page: currentPage,
+    keyword: searchParams?.keyword,
+    searchType,
+  });
 
   return (
     <div className="container mx-auto py-16 px-4">

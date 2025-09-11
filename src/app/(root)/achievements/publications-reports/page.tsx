@@ -14,16 +14,15 @@ export default async function PublicationsReportsPage({
   const galleryType = GalleryTypeMap.PUBLICATIONS_REPORTS;
   const currentPage = Number(searchParams?.page) || 1;
 
-  // searchType 안전하게 매핑
-  let searchType: "title" | "description" | "all" | undefined;
-  if (
-    searchParams?.searchType === "title" ||
-    searchParams?.searchType === "description" ||
-    searchParams?.searchType === "all"
-  ) {
-    searchType = searchParams.searchType;
-  }
+  // ✅ searchType 안전하게 처리
+  const allowedSearchTypes = ["title", "description", "all"] as const;
+  const searchType = allowedSearchTypes.includes(
+    searchParams?.searchType as any
+  )
+    ? (searchParams?.searchType as typeof allowedSearchTypes[number])
+    : undefined;
 
+  // ✅ 갤러리 데이터 가져오기
   const items = await getGalleryItems({
     galleryType: galleryType.code,
     page: currentPage,

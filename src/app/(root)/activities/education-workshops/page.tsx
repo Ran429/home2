@@ -1,5 +1,6 @@
 import { getGalleryItems } from "@/server/prisma/gallery.db";
 import { GalleryTypeMap } from "@/constants/gallery-type";
+import { GalleryViewMap } from "@/constants/gallery-view-map";
 import BoardGallery from "@/components/board/BoardGallery";
 
 export const metadata = {
@@ -30,16 +31,21 @@ export default async function EducationWorkshopsPage({
     searchType,
   });
 
+  // ✅ 뷰타입 (지금은 무조건 gallery)
+  const viewType = GalleryViewMap[galleryType.code];
+
   return (
     <div className="container mx-auto py-16 px-4">
       <h1 className="text-3xl font-bold mb-6">{galleryType.text}</h1>
 
-      <BoardGallery
-        items={items.items}
-        totalItemCount={items.totalItemCount}
-        currentPage={currentPage}
-        basePath="/activities/education-workshops"
-      />
+      {viewType === "gallery" && (
+        <BoardGallery
+          items={items.items}
+          totalItemCount={items.totalItemCount}
+          currentPage={currentPage}
+          basePath="/activities/education-workshops"
+        />
+      )}
     </div>
   );
 }

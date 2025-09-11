@@ -20,7 +20,7 @@ type BoardItem = {
   id: number;
   title: string;
   createdAt: Date;
-  createdBy: string;
+  createdBy: string | null; // ✅ null 허용
   viewCount?: number;
 };
 
@@ -66,7 +66,6 @@ export default function BoardList({
         />
         <Button
           onClick={() => {
-            // ✅ 검색 동작 (URL 이동)
             const query = new URLSearchParams();
             if (keyword) query.set("keyword", keyword);
             if (searchType) query.set("searchType", searchType);
@@ -105,7 +104,9 @@ export default function BoardList({
                       {item.title}
                     </Link>
                   </TableCell>
-                  <TableCell className="text-center">{item.createdBy}</TableCell>
+                  <TableCell className="text-center">
+                    {item.createdBy ?? "관리자"} {/* ✅ null 안전 처리 */}
+                  </TableCell>
                   <TableCell className="text-center text-gray-500">
                     {format(new Date(item.createdAt), "yyyy.MM.dd", { locale: ko })}
                   </TableCell>
