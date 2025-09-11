@@ -24,20 +24,21 @@ export default async function ActivityListPage({
 }) {
   const currentPage = Number(searchParams.page || 1);
 
-  const totalPosts = await prisma.post.count({
-    where: { category: params.category },
-  });
+ const totalPosts = await prisma.board.count({
+  where: { boardType: params.category, isActive: true },
+});
 
-  const posts: Post[] = await prisma.post.findMany({
-    where: {
-      category: params.category,
-    },
-    orderBy: {
-      createdAt: "desc",
-    },
-    skip: (currentPage - 1) * POSTS_PER_PAGE,
-    take: POSTS_PER_PAGE,
-  });
+const posts = await prisma.board.findMany({
+  where: {
+    boardType: params.category, // ✅ category → boardType
+    isActive: true,             // ✅ 활성 데이터만
+  },
+  orderBy: {
+    createdAt: "desc",
+  },
+  skip: (currentPage - 1) * POSTS_PER_PAGE,
+  take: POSTS_PER_PAGE,
+});
 
   if (posts.length === 0 && totalPosts > 0) {
     notFound(); // 게시물은 있는데 해당 페이지에 결과가 없으면 404
@@ -60,7 +61,7 @@ export default async function ActivityListPage({
           </TableRow>
         </TableHeader>
         <TableBody>
-          {posts.map((post: Post, index: number) => (
+          {posts.map((post: Board, index: number) => (
             <TableRow key={post.id}>
               <TableCell>
                 {totalPosts - (currentPage - 1) * POSTS_PER_PAGE - index}

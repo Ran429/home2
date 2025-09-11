@@ -1,33 +1,32 @@
-// src/components/main/recent-posts.tsx
+// ❌ "use client"; 제거
+import Link from "next/link";
+import Image from "next/image";
+import { ArrowRight } from "lucide-react";
 import { prisma } from "@/server/prisma/prisma.client";
 import { Board } from "@prisma/client";
-import { ArrowRight } from "lucide-react";
-import Image from "next/image";
-import Link from "next/link";
-import { MENU_ITEMS } from "@/constants/menu"; // 메뉴 항목을 가져옴
+import { MENU_ITEMS } from "@/constants/menu";
 
-/**
- * 게시물 하나를 표시하는 카드 컴포넌트
- */
-function PostCard({ post }: { post: Post }) {
-  // featuredImage에서 url 추출
+// ✅ Board 모델에 맞게 수정
+function PostCard({ post }: { post: Board }) {
   const getThumbnailUrl = () => {
     try {
-      const imageData =
-        typeof post.featuredImage === "string"
-          ? JSON.parse(post.featuredImage)
-          : post.featuredImage;
-      if (imageData && typeof imageData.url === "string") {
-        return imageData.url;
+      if (Array.isArray(post.images) && post.images.length > 0) {
+        const first = post.images[0] as any;
+        if (first && typeof first.url === "string") {
+          return first.url;
+        }
       }
     } catch (e) {
-      console.error("Invalid featuredImage JSON:", e);
+      console.error("Invalid images JSON:", e);
     }
-    return "https://placehold.co/400x300/E2E8F0/4A5568?text=Image";
+    return "https://placehold.co/400x300/E2E8F0/4A5568?text=No+Image";
   };
 
   return (
-    <Link href={`/${post.category}/${post.slug}`} className="block group">
+    <Link
+      href={`/activities/${post.boardType}/${post.id}`}
+      className="block group"
+    >
       <div className="overflow-hidden rounded-lg border">
         <Image
           src={getThumbnailUrl()}
@@ -49,10 +48,6 @@ function PostCard({ post }: { post: Post }) {
   );
 }
 
-/**
- * 특정 카테고리의 최신 게시물 목록을 표시하는 섹션 컴포넌트
- * ✅ 서버 컴포넌트로 동작 (Prisma 호출 안전)
- */
 export default async function RecentPosts({
   title,
   category,
@@ -60,18 +55,12 @@ export default async function RecentPosts({
   title: string;
   category: string;
 }) {
-  const posts = await prisma.post.findMany({
-    where: {
-      category,
-      isActive: true,
-    },
-    orderBy: {
-      createdAt: "desc",
-    },
+  const posts: Board[] = await prisma.board.findMany({
+    where: { boardType: category, isActive: true },
+    orderBy: { createdAt: "desc" },
     take: 3,
   });
 
-  // 해당 카테고리의 "더보기" 링크
   const viewMoreLink =
     MENU_ITEMS.find((item) => item.href.includes(category))?.href || "#";
 
