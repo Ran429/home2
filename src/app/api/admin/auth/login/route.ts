@@ -1,13 +1,14 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/server/prisma/prisma.client";
 import bcrypt from "bcrypt";
-import jwt from "jsonwebtoken";
+import { SignJWT } from "jose";
+
+const secret = new TextEncoder().encode(process.env.JWT_SECRET!);
 
 export async function POST(req: Request) {
   const { userId, password } = await req.json();
 
   const user = await prisma.adminAccount.findUnique({ where: { userId } });
-
   if (!user) {
     return NextResponse.json(
       { success: false, message: "존재하지 않는 계정입니다." },
@@ -23,12 +24,15 @@ export async function POST(req: Request) {
     );
   }
 
-  // JWT 발급
-  const token = jwt.sign(
-    { id: user.id, userId: user.userId, name: user.name },
-    process.env.JWT_SECRET!,
-    { expiresIn: "1h" }
-  );
+  // ✅ jose로 JWT 발급
+  const token = await new SignJWT({
+    id: user.id,
+    userId: user.userId,
+    name: user.name,
+  })
+    .setProtectedHeader({ alg: "HS256" })
+    .setExpirationTime("1h")
+    .sign(secret);
 
   const res = NextResponse.json({ success: true });
   res.cookies.set("admin_token", token, {
