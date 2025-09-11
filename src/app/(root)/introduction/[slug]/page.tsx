@@ -7,18 +7,19 @@ export async function generateMetadata({
 }: {
   params: { slug: string };
 }) {
-  const post = await prisma.post.findUnique({
-    where: { slug: params.slug, category: "introduction" }, // 수정
+  const page = await prisma.singlePage.findUnique({
+    where: { slug: params.slug },
   });
 
-  if (!post) {
+  if (!page) {
     return {
       title: "페이지를 찾을 수 없음",
     };
   }
 
   return {
-    title: `${post.title} | 인간취약성연구소`,
+    title: `${page.title} | 인간취약성연구소`,
+    description: page.metaDescription ?? undefined,
   };
 }
 
@@ -27,25 +28,22 @@ export default async function IntroductionPage({
 }: {
   params: { slug: string };
 }) {
-  const post = await prisma.post.findUnique({
-    where: {
-      slug: params.slug,
-      category: "introduction", // 수정
-    },
+  const page = await prisma.singlePage.findUnique({
+    where: { slug: params.slug },
   });
 
-  if (!post) {
+  if (!page) {
     notFound();
   }
 
   return (
     <article>
       <header className="mb-8 pb-4 border-b">
-        <h1 className="text-4xl font-extrabold text-gray-900">{post.title}</h1>
+        <h1 className="text-4xl font-extrabold text-gray-900">{page.title}</h1>
       </header>
       <div
         className="prose lg:prose-xl max-w-none"
-        dangerouslySetInnerHTML={{ __html: post.content }}
+        dangerouslySetInnerHTML={{ __html: page.content }}
       />
     </article>
   );

@@ -7,8 +7,14 @@ interface Props {
 }
 
 export default async function EventDetailPage({ params }: Props) {
-  const post = await prisma.post.findUnique({
-    where: { slug: params.slug },
+  const postId = Number(params.slug);
+
+  if (isNaN(postId)) {
+    notFound();
+  }
+
+  const post = await prisma.board.findUnique({
+    where: { id: postId },
   });
 
   if (!post) {
@@ -23,7 +29,7 @@ export default async function EventDetailPage({ params }: Props) {
         dangerouslySetInnerHTML={{ __html: post.content }}
       />
       <p className="text-sm text-gray-500 mt-6">
-        작성자: {post.createdBy} | 등록일:{" "}
+        작성자: {post.createdBy ?? "관리자"} | 등록일:{" "}
         {new Date(post.createdAt).toLocaleDateString()}
       </p>
     </div>

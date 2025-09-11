@@ -8,7 +8,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { prisma } from "@/lib/prisma";
-import { Post } from "@prisma/client";
+import { Board } from "@prisma/client";
 import dayjs from "dayjs";
 import Link from "next/link";
 import { notFound } from "next/navigation";

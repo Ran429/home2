@@ -1,6 +1,6 @@
 // src/components/main/recent-posts.tsx
 import { prisma } from "@/server/prisma/prisma.client";
-import { Post } from "@prisma/client";
+import { Board } from "@prisma/client";
 import { ArrowRight } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
