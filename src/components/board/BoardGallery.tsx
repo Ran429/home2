@@ -6,15 +6,17 @@ import Link from "next/link";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 
-type BoardItem = {
+// ✅ 갤러리 전용 타입
+type GalleryItem = {
   id: number;
   title: string;
+  description?: string | null;
+  thumbnail?: string | null;
   createdAt: Date;
-  images?: any; // Prisma JsonValue → 실제로는 string[]일 가능성 있음
 };
 
 interface BoardGalleryProps {
-  items: BoardItem[];
+  items: GalleryItem[];
   totalItemCount: number;
   currentPage: number;
   basePath?: string; // e.g. "/achievements/media-coverage"
@@ -38,10 +40,8 @@ export default function BoardGallery({
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
           {items.map((item) => {
-            const firstImage =
-              Array.isArray(item.images) && item.images.length > 0
-                ? item.images[0]
-                : "/images/default-thumbnail.jpg"; // fallback 이미지
+            const thumbnail =
+              item.thumbnail || "/images/default-thumbnail.png";
 
             return (
               <Link
@@ -51,7 +51,7 @@ export default function BoardGallery({
               >
                 <div className="relative w-full h-56 rounded-lg overflow-hidden shadow-md group-hover:shadow-lg transition-shadow">
                   <Image
-                    src={firstImage}
+                    src={thumbnail}
                     alt={item.title}
                     fill
                     className="object-cover group-hover:scale-105 transition-transform duration-300"
@@ -60,6 +60,11 @@ export default function BoardGallery({
                 <h3 className="mt-3 font-medium text-lg text-gray-800 group-hover:text-hvri_primary line-clamp-2">
                   {item.title}
                 </h3>
+                {item.description && (
+                  <p className="text-sm text-gray-600 line-clamp-2">
+                    {item.description}
+                  </p>
+                )}
                 <p className="text-sm text-gray-500">
                   {format(new Date(item.createdAt), "yyyy.MM.dd", { locale: ko })}
                 </p>

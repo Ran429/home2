@@ -1,3 +1,4 @@
+// src/constants/board-view-map.ts
 import { BoardTypeMap } from "./board-type";
 
 export const BoardViewMap = {
@@ -7,13 +8,10 @@ export const BoardViewMap = {
 
   // 주요활동
   [BoardTypeMap.RESEARCH_PROJECTS.code]: "list",
-  [BoardTypeMap.EDUCATION_WORKSHOPS.code]: "gallery",
   [BoardTypeMap.SOCIAL_CONTRIBUTION.code]: "list",
 
-  // 성과
+  // 성과 (리스트형만 게시판에서 관리)
   [BoardTypeMap.RESEARCH_OUTCOMES.code]: "list",
-  [BoardTypeMap.PUBLICATIONS_REPORTS.code]: "gallery",
-  [BoardTypeMap.MEDIA_COVERAGE.code]: "gallery",
 } as const;
 
-export type BoardViewType = "list" | "gallery";
+export type BoardViewType = "list";

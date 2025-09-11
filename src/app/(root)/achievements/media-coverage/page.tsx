@@ -1,7 +1,5 @@
-import { getBoardItems } from "@/server/prisma/board.db";
-import { BoardTypeMap } from "@/constants/board-type";
-import { BoardViewMap } from "@/constants/board-view-map";
-import BoardList from "@/components/board/BoardList";
+import { getGalleryItems } from "@/server/prisma/gallery.db";
+import { GalleryTypeMap } from "@/constants/gallery-type";
 import BoardGallery from "@/components/board/BoardGallery";
 
 export const metadata = {
@@ -13,37 +11,35 @@ export default async function MediaCoveragePage({
 }: {
   searchParams?: { page?: string; keyword?: string; searchType?: string };
 }) {
-  const boardType = BoardTypeMap.MEDIA_COVERAGE;
+  const galleryType = GalleryTypeMap.MEDIA_COVERAGE;
   const currentPage = Number(searchParams?.page) || 1;
 
-  const items = await getBoardItems({
-    boardType,
-    page: currentPage,
-    keyword: searchParams?.keyword,
-    searchType: searchParams?.searchType,
-  });
+let searchType: "title" | "description" | "all" | undefined;
+if (
+  searchParams?.searchType === "title" ||
+  searchParams?.searchType === "description" ||
+  searchParams?.searchType === "all"
+) {
+  searchType = searchParams.searchType;
+}
 
-  const viewType = BoardViewMap[boardType.code];
+const items = await getGalleryItems({
+  galleryType: GalleryTypeMap.MEDIA_COVERAGE.code,
+  page: currentPage,
+  keyword: searchParams?.keyword,
+  searchType,
+});
 
   return (
     <div className="container mx-auto py-16 px-4">
-      <h1 className="text-3xl font-bold mb-6">{boardType.text}</h1>
+      <h1 className="text-3xl font-bold mb-6">{galleryType.text}</h1>
 
-      {viewType === "list" ? (
-        <BoardList
-          items={items.items}
-          totalItemCount={items.totalItemCount}
-          currentPage={currentPage}
-          basePath="/achievements/media-coverage"
-        />
-      ) : (
-        <BoardGallery
-          items={items.items}
-          totalItemCount={items.totalItemCount}
-          currentPage={currentPage}
-          basePath="/achievements/media-coverage"
-        />
-      )}
+      <BoardGallery
+        items={items.items}
+        totalItemCount={items.totalItemCount}
+        currentPage={currentPage}
+        basePath="/achievements/media-coverage"
+      />
     </div>
   );
 }

@@ -37,21 +37,47 @@ export async function getGalleryItem(id: number) {
 }
 
 /**
- * 갤러리 목록 불러오기 (페이징 지원)
+ * 갤러리 목록 불러오기 (검색 + 페이징 지원)
  */
 export async function getGalleryItems({
   page,
   galleryType,
+  keyword,
+  searchType,
 }: {
   page: number;
   galleryType?: string;
+  keyword?: string;
+  searchType?: "title" | "description" | "all";
 }) {
   const unit = 12;
+  let searchCriteria: any = {};
+
+  if (galleryType) {
+    searchCriteria.galleryType = galleryType;
+  }
+
+  if (searchType && keyword) {
+    switch (searchType) {
+      case "title":
+        searchCriteria.title = { contains: keyword };
+        break;
+      case "description":
+        searchCriteria.description = { contains: keyword };
+        break;
+      case "all":
+        searchCriteria.OR = [
+          { title: { contains: keyword } },
+          { description: { contains: keyword } },
+        ];
+        break;
+    }
+  }
 
   const galleryItems = await prisma.gallery.findMany({
     where: {
+      ...searchCriteria,
       isActive: true,
-      ...(galleryType ? { galleryType } : {}),
     },
     skip: (page - 1) * unit,
     take: unit,
@@ -62,8 +88,8 @@ export async function getGalleryItems({
 
   const totalItemCount = await prisma.gallery.count({
     where: {
+      ...searchCriteria,
       isActive: true,
-      ...(galleryType ? { galleryType } : {}),
     },
   });
 

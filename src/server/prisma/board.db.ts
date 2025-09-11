@@ -172,6 +172,10 @@ export async function getBoardItems({
   };
 }
 
+export function getBoardTypeEnum(code: string) {
+  return BoardTypes.find((type) => type.code === code);
+}
+
 /**
  * 조회수 증가
  */
