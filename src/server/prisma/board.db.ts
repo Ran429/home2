@@ -1,5 +1,5 @@
 import type { MainBoardType } from "@/@types/board-types";
-import { BoardTypes } from "@/constants/board-type"; // ✅ GALLERY 제거됨
+import { BoardTypes } from "@/constants/board-type";
 import type { BoardType } from "@/constants/board-type";
 import type { Board } from "@prisma/client";
 import { prisma } from "./prisma.client";
@@ -9,7 +9,7 @@ type BoardTypeValue = BoardType;
 /**
  * 메인페이지에서 사용할 게시판 아이템 로드
  */
-async function getMainBoard(boardTypes: string[]) {
+export async function getMainBoard(boardTypes: string[]) {
   const boardMap = new Map<string, MainBoardType[]>();
   const allBoardItems: MainBoardType[] = [];
 
@@ -40,7 +40,7 @@ async function getMainBoard(boardTypes: string[]) {
 /**
  * 단일 게시판 아이템 조회
  */
-export function getBoardItem(boardId: number) {
+export async function getBoardItem(boardId: number) {
   return prisma.board.findFirst({
     where: {
       id: boardId,
@@ -52,7 +52,7 @@ export function getBoardItem(boardId: number) {
 /**
  * 게시물과 이전, 다음 아이템을 같이 불러오는 함수
  */
-async function getBoardItemWithPrevNext(boardType: string, boardId: number) {
+export async function getBoardItemWithPrevNext(boardType: string, boardId: number) {
   const item = await prisma.board.findFirst({
     where: {
       boardType,
@@ -64,30 +64,14 @@ async function getBoardItemWithPrevNext(boardType: string, boardId: number) {
   if (!item) return null;
 
   const nextItem = await prisma.board.findFirst({
-    select: {
-      id: true,
-      title: true,
-      createdAt: true,
-    },
-    where: {
-      boardType,
-      id: { gt: boardId },
-      isActive: true,
-    },
+    select: { id: true, title: true, createdAt: true },
+    where: { boardType, id: { gt: boardId }, isActive: true },
     take: 1,
   });
 
   const prevItem = await prisma.board.findFirst({
-    select: {
-      id: true,
-      title: true,
-      createdAt: true,
-    },
-    where: {
-      boardType,
-      id: { lt: boardId },
-      isActive: true,
-    },
+    select: { id: true, title: true, createdAt: true },
+    where: { boardType, id: { lt: boardId }, isActive: true },
     orderBy: { id: "desc" },
     take: 1,
   });
@@ -107,6 +91,9 @@ export type BoardListItem = Pick<
   | "boardType"
 >;
 
+/**
+ * 게시판 아이템 목록 불러오기
+ */
 export async function getBoardItems({
   page,
   boardType,
@@ -120,7 +107,7 @@ export async function getBoardItems({
 }) {
   const unit = 10;
 
-  let searchCriteria = {};
+  let searchCriteria: any = {};
   if (boardType) {
     searchCriteria = { boardType: boardType.code };
   }
@@ -165,13 +152,25 @@ export async function getBoardItems({
     where: { ...searchCriteria, isActive: true },
   });
 
+  // ✅ 대표 이미지 thumbnail 필드 추가
+  const items = boardItems.map((item) => {
+    const images = item.images as unknown as { url: string }[] | null;
+    return {
+      ...item,
+      thumbnail: images?.[0]?.url || null,
+    };
+  });
+
   return {
-    items: boardItems,
+    items,
     totalItemCount,
     totalPage: Math.floor(totalItemCount / unit) + 1,
   };
 }
 
+/**
+ * 게시판 타입 enum 가져오기
+ */
 export function getBoardTypeEnum(code: string) {
   return BoardTypes.find((type) => type.code === code);
 }
@@ -191,6 +190,9 @@ export type SearchBoard = Pick<
   "id" | "boardType" | "title" | "content" | "createdAt"
 >;
 
+/**
+ * 게시판 검색
+ */
 export async function searchBoardItems(keyword: string) {
   const allBoardTypes = BoardTypes.map((type) => type.code);
 
@@ -232,17 +234,25 @@ export async function searchBoardItems(keyword: string) {
 /**
  * 소프트 삭제
  */
-async function deleteOne(boardId: number) {
+export async function deleteOne(boardId: number) {
   return prisma.board.update({
     data: { isActive: false },
     where: { id: boardId },
   });
 }
 
+/**
+ * ✅ 필요하면 default export도 유지 (모든 함수 모음)
+ */
 const BoardDB = {
   deleteOne,
   getMainBoard,
+  getBoardItem,
   getBoardItemWithPrevNext,
+  getBoardItems,
+  getBoardTypeEnum,
+  updateViewCount,
+  searchBoardItems,
 };
 
 export default BoardDB;

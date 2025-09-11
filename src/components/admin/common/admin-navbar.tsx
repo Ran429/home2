@@ -12,7 +12,7 @@ export default function AdminNavbar() {
     { text: "단일 페이지 수정", href: "/admin/pages" },
     { text: "게시판 글 관리", href: "/admin/posts" },
     { text: "갤러리 글 관리", href: "/admin/gallery" },
-    { text: "파트너십 관리", href: "/admin/partners" },
+    { text: "협력사십 관리", href: "/admin/partners" },
   ];
 
   const handleLogout = async () => {

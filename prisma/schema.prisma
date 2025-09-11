@@ -46,7 +46,7 @@ model Gallery {
   @@map("td_gallery")
 }
 
-// ✅ 파트너 (협력사/파트너 로고 관리)
+// ✅ 협력사 (협력사/협력사 로고 관리)
 model Partner {
   id          Int      @id @default(autoincrement())
   name        String

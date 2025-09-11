@@ -18,7 +18,7 @@ export default function PartnersPage() {
   const [link, setLink] = useState("");
   const [description, setDescription] = useState("");
 
-  // ✅ 파트너 목록 로드
+  // ✅ 협력사 목록 로드
   const fetchPartners = async () => {
     const res = await fetch("/api/admin/partners");
     const data = await res.json();
@@ -52,7 +52,7 @@ export default function PartnersPage() {
 
   return (
     <div className="container mx-auto py-10">
-      <h1 className="text-2xl font-bold mb-6">파트너 관리</h1>
+      <h1 className="text-2xl font-bold mb-6">협력사 관리</h1>
 
       {/* 등록 폼 */}
       <form onSubmit={handleSubmit} className="space-y-4 mb-8">

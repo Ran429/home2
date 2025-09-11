@@ -1,0 +1,220 @@
+.
+├── components.json
+├── next-env.d.ts
+├── next.config.mjs
+├── package.json
+├── pnpm-lock.yaml
+├── postcss.config.mjs
+├── prisma
+│   ├── migrations
+│   │   ├── 20250910120121_init
+│   │   │   └── migration.sql
+│   │   ├── 20250910133310_add_board
+│   │   │   └── migration.sql
+│   │   └── migration_lock.toml
+│   └── schema.prisma
+├── project-structure.txt
+├── public
+│   ├── fonts
+│   │   └── PretendardVariable.woff2
+│   └── images
+│       ├── background
+│       │   └── main
+│       │       ├── bg_carousel1.webp
+│       │       ├── bg_carousel2.webp
+│       │       ├── bg_carousel3.webp
+│       │       └── ihv_bg_title.webp
+│       ├── default-thumbnail.png
+│       ├── logo
+│       │   └── ihv_logo_white.png
+│       └── sample
+│           ├── achievement1.png
+│           ├── achievement2.png
+│           ├── activity1.png
+│           ├── activity2.png
+│           ├── event1.png
+│           ├── event2.png
+│           └── organization.png
+├── react-quill.d.ts
+├── README.md
+├── src
+│   ├── @types
+│   │   ├── board-types.d.ts
+│   │   └── upload-file.d.ts
+│   ├── app
+│   │   ├── (root)
+│   │   │   ├── achievements
+│   │   │   │   ├── layout.tsx
+│   │   │   │   ├── media-coverage
+│   │   │   │   ├── publications-reports
+│   │   │   │   └── research-outcomes
+│   │   │   ├── activities
+│   │   │   │   ├── [category]
+│   │   │   │   ├── education-workshops
+│   │   │   │   ├── layout.tsx
+│   │   │   │   ├── research-projects
+│   │   │   │   └── social-contribution
+│   │   │   ├── admin
+│   │   │   │   ├── activities
+│   │   │   │   ├── auth
+│   │   │   │   ├── layout.tsx
+│   │   │   │   ├── page.tsx
+│   │   │   │   ├── pages
+│   │   │   │   └── partners
+│   │   │   ├── events
+│   │   │   │   ├── announcements
+│   │   │   │   ├── institute-events
+│   │   │   │   └── layout.tsx
+│   │   │   ├── introduce
+│   │   │   │   └── layout.tsx
+│   │   │   ├── introduction
+│   │   │   │   ├── [slug]
+│   │   │   │   ├── at-a-glance
+│   │   │   │   ├── ethics-charter
+│   │   │   │   ├── history-and-philosophy
+│   │   │   │   ├── layout.tsx
+│   │   │   │   ├── people
+│   │   │   │   └── what-is-vulnerability
+│   │   │   ├── layout.tsx
+│   │   │   ├── loading.tsx
+│   │   │   ├── page.tsx
+│   │   │   └── partnerships
+│   │   │       └── page.tsx
+│   │   ├── api
+│   │   │   └── admin
+│   │   │       ├── auth
+│   │   │       ├── gallery
+│   │   │       ├── list
+│   │   │       ├── page
+│   │   │       ├── partners
+│   │   │       └── upload
+│   │   ├── apple-icon.png
+│   │   ├── favicon.ico
+│   │   ├── globals.css
+│   │   ├── icon.png
+│   │   ├── layout.tsx
+│   │   ├── robots.txt
+│   │   └── sitemap.ts
+│   ├── auth.config.ts
+│   ├── auth.ts
+│   ├── components
+│   │   ├── admin
+│   │   │   ├── activities
+│   │   │   │   ├── admin-activities-search.tsx
+│   │   │   │   ├── admin-activities-tab.tsx
+│   │   │   │   └── admin-activities-table.tsx
+│   │   │   ├── auth
+│   │   │   │   └── login
+│   │   │   ├── common
+│   │   │   │   ├── admin-checkbox.tsx
+│   │   │   │   ├── admin-editor.tsx
+│   │   │   │   ├── admin-form-button-group.tsx
+│   │   │   │   ├── admin-form-button.tsx
+│   │   │   │   ├── admin-input.tsx
+│   │   │   │   └── admin-navbar.tsx
+│   │   │   └── organization
+│   │   │       └── admin-organization-tabs.tsx
+│   │   ├── board
+│   │   │   ├── BoardGallery.tsx
+│   │   │   └── BoardList.tsx
+│   │   ├── common
+│   │   │   ├── bold-text.tsx
+│   │   │   ├── common-breadcrumb.tsx
+│   │   │   ├── common-detail-section.tsx
+│   │   │   ├── divider-y.tsx
+│   │   │   ├── divider.tsx
+│   │   │   ├── dotted-divider.tsx
+│   │   │   ├── paging.tsx
+│   │   │   ├── represent-background.tsx
+│   │   │   ├── scroll-button.tsx
+│   │   │   ├── select-box.tsx
+│   │   │   ├── sub-navbar.tsx
+│   │   │   └── sub-title.tsx
+│   │   ├── dialog
+│   │   │   ├── dialog-close-button.tsx
+│   │   │   └── dialog-x-button.tsx
+│   │   ├── footer
+│   │   │   ├── copyright-policy-dialog.tsx
+│   │   │   ├── email-policy-dialog.tsx
+│   │   │   ├── footer-button.tsx
+│   │   │   ├── footer.tsx
+│   │   │   └── privacy-policy-dialog.tsx
+│   │   ├── main
+│   │   │   ├── carousel
+│   │   │   │   └── main-carousel.tsx
+│   │   │   ├── main-title.tsx
+│   │   │   └── recent-posts.tsx
+│   │   ├── navbar
+│   │   │   ├── mobile-menu.tsx
+│   │   │   ├── mobile-navbar.tsx
+│   │   │   ├── navbar.tsx
+│   │   │   ├── pc-menu.tsx
+│   │   │   └── pc-navbar.tsx
+│   │   ├── single-page
+│   │   │   └── SinglePageView.tsx
+│   │   └── ui
+│   │       ├── accordion.tsx
+│   │       ├── breadcrumb.tsx
+│   │       ├── button.tsx
+│   │       ├── card.tsx
+│   │       ├── carousel.tsx
+│   │       ├── command.tsx
+│   │       ├── dialog.tsx
+│   │       ├── drawer.tsx
+│   │       ├── dropdown-menu.tsx
+│   │       ├── form.tsx
+│   │       ├── input.tsx
+│   │       ├── label.tsx
+│   │       ├── pagination.tsx
+│   │       ├── popover.tsx
+│   │       ├── scroll-area.tsx
+│   │       ├── select.tsx
+│   │       ├── sheet.tsx
+│   │       ├── skeleton.tsx
+│   │       ├── table.tsx
+│   │       ├── tabs.tsx
+│   │       └── textarea.tsx
+│   ├── constants
+│   │   ├── board-type.ts
+│   │   ├── board-view-map.ts
+│   │   ├── common-metadata.ts
+│   │   ├── dialog.const.ts
+│   │   ├── gallery-type.ts
+│   │   ├── gallery-view-map.ts
+│   │   ├── institute-info.ts
+│   │   └── menu.ts
+│   ├── hooks
+│   │   ├── use-hash.tsx
+│   │   ├── use-scroll-height.tsx
+│   │   └── use-window-size.tsx
+│   ├── lib
+│   │   ├── auth-util.ts
+│   │   ├── cache-util.ts
+│   │   ├── classname-util.ts
+│   │   ├── client-file-util.ts
+│   │   ├── font-util.ts
+│   │   ├── form-util.ts
+│   │   ├── prisma.ts
+│   │   ├── server-file-util.ts
+│   │   ├── time-util.ts
+│   │   └── utils.ts
+│   ├── middleware.ts
+│   └── server
+│       ├── action
+│       │   ├── download-board-file.action.ts
+│       │   └── download-board-files.action.ts
+│       ├── prisma
+│       │   ├── admin-account.db.ts
+│       │   ├── board.db.ts
+│       │   ├── gallery.db.ts
+│       │   ├── partner.db.ts
+│       │   ├── prisma.client.ts
+│       │   └── single-page.db.ts
+│       └── supabase
+│           ├── bucket.client.ts
+│           └── supabase.client.ts
+├── tailwind.config.ts
+├── tsconfig.json
+└── vercel.json
+
+73 directories, 145 files

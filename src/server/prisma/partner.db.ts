@@ -1,7 +1,5 @@
 import { UploadFile } from "@/@types/upload-file";
-import { UpdatePartnerSchema } from "@/app/(admin)/admin/(feature)/partner/[partner_id]/update/schema";
-import { CreatePartnerSchema } from "@/app/(admin)/admin/(feature)/partner/create/schema";
-import { z } from "zod";
+import { UpdatePartnerSchema, CreatePartnerSchema } from "@/app/(root)/admin/partners/schema";import { z } from "zod";
 import { prisma } from "./prisma.client";
 
 async function create(

@@ -33,7 +33,7 @@ export default function EditPartnerPage() {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ name, link, description }),
     });
-    alert("파트너 정보가 수정되었습니다!");
+    alert("협력사 정보가 수정되었습니다!");
     router.push("/admin/partners");
   };
 
@@ -41,7 +41,7 @@ export default function EditPartnerPage() {
 
   return (
     <div className="container mx-auto py-10">
-      <h1 className="text-2xl font-bold mb-6">파트너 수정</h1>
+      <h1 className="text-2xl font-bold mb-6">협력사 수정</h1>
       <form onSubmit={handleSubmit} className="space-y-4">
         <Input value={name} onChange={(e) => setName(e.target.value)} placeholder="이름" />
         <Input value={link} onChange={(e) => setLink(e.target.value)} placeholder="링크" />

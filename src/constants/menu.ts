@@ -45,7 +45,7 @@ export const MENU_ITEMS: NavItem[] = [
     ],
   },
   {
-    label: "파트너십",
+    label: "협력사십",
     href: "/partnerships",
   },
 ];

@@ -18,9 +18,9 @@ const adminMenu = [
     description: "교육·워크숍 / 출판물 / 미디어 보도",
   },
   {
-    text: "파트너십 관리",
+    text: "협력사십 관리",
     href: "/admin/partners",
-    description: "협력기관 및 파트너 관리",
+    description: "협력기관 및 협력사 관리",
   },
 ];
 

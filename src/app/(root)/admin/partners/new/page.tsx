@@ -36,9 +36,9 @@ export default function NewPartnerPage() {
 
   return (
     <div className="container mx-auto py-10">
-      <h1 className="text-2xl font-bold mb-6">파트너 추가</h1>
+      <h1 className="text-2xl font-bold mb-6">협력사 추가</h1>
       <form onSubmit={handleSubmit} className="space-y-4 max-w-lg">
-        <Input placeholder="파트너 이름" value={name} onChange={(e) => setName(e.target.value)} required />
+        <Input placeholder="협력사 이름" value={name} onChange={(e) => setName(e.target.value)} required />
         <Input placeholder="로고 이미지 URL" value={logoUrl} onChange={(e) => setLogoUrl(e.target.value)} />
         <Input placeholder="홈페이지 링크" value={link} onChange={(e) => setLink(e.target.value)} />
         <Textarea placeholder="설명" value={description} onChange={(e) => setDescription(e.target.value)} />
