@@ -3,7 +3,7 @@
 import * as React from "react";
 import Autoplay from "embla-carousel-autoplay";
 import Image from "next/image";
-import { useRef } from "react";
+import { useRef, useEffect } from "react";
 import {
   Carousel,
   CarouselContent,
@@ -12,11 +12,9 @@ import {
 import useWindowSize from "@/hooks/use-window-size";
 import { CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 
-// ✅ PC 전용 이전/다음 버튼
 function MainCarouselButton() {
   const { isMobile } = useWindowSize();
   if (isMobile) return null;
-
   return (
     <>
       <CarouselPrevious className="absolute left-4 top-1/2 -translate-y-1/2 z-20" />
@@ -25,12 +23,10 @@ function MainCarouselButton() {
   );
 }
 
-// ✅ 캐러셀 하단 스크롤 버튼 (👉 default ❌ → named export ✅)
 export function MainCarouselScrollButton() {
   const handleClick = () => {
     window.scrollTo({ top: window.innerHeight, behavior: "smooth" });
   };
-
   return (
     <div
       className="absolute bottom-4 left-1/2 transform -translate-x-1/2 cursor-pointer z-20"
@@ -49,13 +45,13 @@ export function MainCarouselScrollButton() {
     </div>
   );
 }
-// ✅ 슬라이드 데이터
+
 const slides = [
   {
     id: 1,
     image: "/images/background/main/bg_carousel1.webp",
     title: "인간취약성연구소",
-    description: "Human Vulnerability Research Institute",
+    description: "Institute for Human Vulnerability",
   },
   {
     id: 2,
@@ -71,46 +67,54 @@ const slides = [
   },
 ];
 
-// ✅ 최종 메인 캐러셀 컴포넌트
 export default function MainCarousel() {
-  const autoplay = useRef(
-      Autoplay({ delay: 5000, stopOnInteraction: false })
-    );
+  const autoplay = useRef<any>(null);
+
+  useEffect(() => {
+    autoplay.current = Autoplay({ delay: 5000, stopOnInteraction: false });
+    console.log("✅ Autoplay initialized:", autoplay.current);
+  }, []);
 
   return (
-    <section className="relative w-full h-screen overflow-hidden">
-      <Carousel
-        opts={{ loop: true }}
-        plugins={[autoplay.current]}
-        className="w-full h-full"
-      >
-        <CarouselContent>
-          {slides.map((slide) => (
-            <CarouselItem key={slide.id} className="relative w-full h-screen">
-              <Image
-                src={slide.image}
-                alt={slide.title}
-                fill
-                priority
-                className="object-cover"
-              />
-              {/* 오버레이 */}
-              <div className="absolute inset-0 bg-black/40" />
-              {/* 텍스트 */}
-              <div className="absolute inset-0 flex flex-col items-center justify-center text-center text-white px-4">
-                <h2 className="text-4xl md:text-6xl font-bold mb-4">
-                  {slide.title}
-                </h2>
-                <p className="text-lg md:text-2xl">{slide.description}</p>
-              </div>
-            </CarouselItem>
-          ))}
-        </CarouselContent>
+    <section className="relative w-full h-[600px] overflow-hidden">
+  <Carousel
+    opts={{ loop: true }}
+    plugins={autoplay.current ? [autoplay.current] : []}
+    className="w-full h-full"
+  >
+    <CarouselContent>
+      {slides.map((slide) => (
+        <CarouselItem
+          key={slide.id}
+          className="relative w-full h-[600px] flex-shrink-0 basis-full"
+        >
+          <Image
+            src={slide.image}
+            alt={slide.title}
+            fill
+            priority
+            className="object-cover"
+            sizes="100vw"
+            onLoadingComplete={() =>
+              console.log(`✅ Loaded image: ${slide.image}`)
+            }
+          />
+          {/* 어두운 오버레이 */}
+          <div className="absolute inset-0 bg-black/40" />
+          {/* 텍스트 */}
+          <div className="absolute inset-0 flex flex-col items-center justify-center text-center text-white px-4">
+            <h2 className="text-4xl md:text-6xl font-bold mb-4">
+              {slide.title}
+            </h2>
+            <p className="text-lg md:text-2xl">{slide.description}</p>
+          </div>
+        </CarouselItem>
+      ))}
+    </CarouselContent>
 
-        {/* 버튼 및 스크롤 */}
-        <MainCarouselButton />
-        <MainCarouselScrollButton />
-      </Carousel>
-    </section>
+    <MainCarouselButton />
+    <MainCarouselScrollButton />
+  </Carousel>
+</section>
   );
 }

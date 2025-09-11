@@ -1,63 +1,47 @@
-// src/components/admin/common/admin-navbar.tsx
-
 "use client";
 
-import useScrollHeight from "@/hooks/use-scroll-height";
-import { FONT_PRETENDARD } from "@/lib/font-util";
-import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
 
-export default function AdminNavBar() {
-  const { isTop } = useScrollHeight();
+export default function AdminNavbar() {
   const pathname = usePathname();
 
   const adminMenu = [
-    { text: "콘텐츠 관리", href: "/admin/posts?page=1", group: "/admin/posts" },
-    {
-      text: "파트너 관리",
-      href: "/admin/partners",
-      group: "/admin/partners",
-    },
-    { text: "회원 관리", href: "/admin/members", group: "/admin/members" },
-    {
-      text: "사이트 설정",
-      href: "/admin/settings",
-      group: "/admin/settings",
-    },
+    { text: "단일 페이지 수정", href: "/admin/pages" },
+    { text: "게시판 글 관리", href: "/admin/posts" },
+    { text: "갤러리 글 관리", href: "/admin/gallery" },
+    { text: "파트너십 관리", href: "/admin/partners" },
   ];
 
+  const handleLogout = async () => {
+    await fetch("/api/admin/auth/logout", { method: "POST" });
+    window.location.href = "/admin/auth/login";
+  };
+
   return (
-    <nav
-      className={cn(
-        FONT_PRETENDARD,
-        "top-0 w-full text-black z-20 fixed",
-        "h-[100px] bg-white px-4",
-        isTop ? "backdrop-blur" : "!bg-white shadow-md"
-      )}
-    >
-      <div className="container font-bold flex flex-row items-center justify-center h-full">
+    <nav className="top-0 w-full z-20 fixed bg-white shadow-md">
+      <div className="container mx-auto flex items-center justify-between h-[64px] px-4">
+        {/* 로고/타이틀 */}
         <Link
-          className={cn(
-            "flex-none mr-auto hover:opacity-50 active:opacity-50 transition-opacity flex justify-center items-center",
-            "text-2xl text-hvri_primary"
-          )}
-          href="/admin/posts"
+          href="/admin"
+          className="text-xl font-bold text-hvri_primary hover:opacity-70"
         >
           인간취약성연구소 관리자
         </Link>
 
-        <ul className="flex flex-row gap-8 justify-center text-lg z-20">
-          {adminMenu.map(({ text, href, group }) => (
+        {/* 탭 메뉴 */}
+        <ul className="flex flex-row gap-8 text-lg">
+          {adminMenu.map(({ text, href }) => (
             <li key={text}>
               <Link
                 href={href}
                 className={cn(
-                  "transition-colors border-b-2 border-transparent",
-                  "hover:text-hvri_primary hover:border-hvri_primary py-[38px]",
-                  pathname.startsWith(group)
-                    ? "text-hvri_primary border-hvri_primary border-b-[3px]"
-                    : ""
+                  "transition-colors border-b-2 border-transparent pb-1",
+                  pathname.startsWith(href)
+                    ? "text-hvri_primary border-hvri_primary font-semibold"
+                    : "hover:text-hvri_primary"
                 )}
               >
                 {text}
@@ -65,6 +49,16 @@ export default function AdminNavBar() {
             </li>
           ))}
         </ul>
+
+        {/* 로그아웃 버튼 */}
+        <Button
+          variant="destructive"
+          size="sm"
+          onClick={handleLogout}
+          className="ml-6"
+        >
+          로그아웃
+        </Button>
       </div>
     </nav>
   );

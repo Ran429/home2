@@ -1,4 +1,4 @@
-// Defines the navigation structure for the Human Vulnerability Research Institute website.
+// Defines the navigation structure for the Institute for Human Vulnerability website.
 
 export interface NavItem {
   label: string;

@@ -1,4 +1,4 @@
-// This schema is updated for the Human Vulnerability Research Institute website.
+// This schema is updated for the Institute for Human Vulnerability website.
 // It uses a generic 'Post' model to manage all content types (Type1, Type2, Type4).
 //C:\Users\zeroj\klea-main\home\home2\prisma\schema.prisma
 
@@ -9,7 +9,6 @@ generator client {
 datasource db {
   provider   = "postgresql"
   url        = env("DATABASE_URL")   // 런타임용 (pooler)
-  directUrl  = env("DIRECT_URL")     // 마이그레이션용 (직접 연결)
 }
 
 // A generic model for all content: pages, posts, gallery items, etc.
@@ -106,4 +105,15 @@ model Member {
 
   @@index([isActive, sortOrder])
   @@map("td_member")
+}
+
+model Page {
+  id        Int      @id @default(autoincrement())
+  slug      String   @unique   // 예: "introduction", "ethics-charter"
+  title     String
+  content   String   // HTML or Markdown
+
+  isActive  Boolean  @default(true)   // 필요할 때 노출/비노출 구분
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }

@@ -24,7 +24,7 @@ export default function PrivacyPolicyDialog({ content }: Props) {
         <FooterButton
           title="개인정보처리방침"
           // `hvri_primary` 색상을 사용하는 새로운 클래스로 변경
-          classname="!bg-hvri_primary !border-none" 
+          classname="!text-black !border-none" 
         />
       </DialogTrigger>
       <DialogContent className="bg-muted">

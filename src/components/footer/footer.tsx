@@ -7,9 +7,9 @@ import Image from "next/image";
 import Link from "next/link";
 import FooterButton from "./footer-button";
 
-// 연구소 정보 (KLEA → HVRI 버전)
+// 연구소 정보
 const INSTITUTE_INFO = {
-  ADDRESS: "서울특별시 ○○구 ○○로 123, 인간취약성연구소",
+  ADDRESS: "서울특별시 서초구 사임당로8길 13, 4층 402-엘502호, 인간취약성연구소",
   PHONE: "02-123-4567",
   FAX: "02-987-6543",
   EMAIL: "thevulnerables@naver.com",
@@ -17,8 +17,7 @@ const INSTITUTE_INFO = {
 
 export default function Footer() {
   return (
-    <footer className="w-full bg-[#212B4E] py-10 lg:py-7 mt-20">
-      <div className="container lg:px-4 px-8">
+<footer className="w-full py-10 lg:py-7 mt-20 border-t border-gray-200">      <div className="container lg:px-4 px-8">
         <div
           className={cn(
             "flex justify-between items-center gap-10 lg:gap-12",
@@ -36,7 +35,7 @@ export default function Footer() {
           {/* 다이얼로그 & 사이트맵 */}
           <div
             className={cn(
-              "w-full text-white text-base gap-[10px] relative",
+              "w-full text-base gap-[10px] relative",
               "lg:flex lg:flex-row lg:justify-end grid grid-cols-2"
             )}
           >
@@ -69,8 +68,8 @@ export default function Footer() {
             <DividerY className="bg-[#A0A8C2] h-[13px] mx-3 mt-1 lg:mt-0" />
             <p>Email : {INSTITUTE_INFO.EMAIL}</p>
           </div>
-          <p className="mt-3 text-sm lg:text-base text-[#677195]">
-            © 2024 Institute for Human Vulnerability. All Rights Reserved.
+          <p className="mt-3 text-sm lg:text-base text-[#677195] text-center">
+            © 2025 Institute for Human Vulnerability. All Rights Reserved.
           </p>
         </div>
       </div>

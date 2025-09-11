@@ -9,7 +9,7 @@ import { Metadata } from "next";
    category: "연구, 교육, 사회공헌",
    keywords: [
      "인간취약성연구소",
-     "Human Vulnerability Research Institute",
+     "Institute for Human Vulnerability",
      "취약성 연구",
      "사회적 취약성",
      "교육 및 워크숍",

@@ -15,11 +15,6 @@ export default function RootLayout({
     <html lang="ko">
       <body className={FONT_PRETENDARD.className}>
         {children}
-        {/* KAKAO MAP API */}
-        <Script
-          strategy="beforeInteractive"
-          src={`//dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.NEXT_PUBLIC_KAKAO_API_KEY}&libraries=services,clusterer&autoload=false`}
-        />
       </body>
     </html>
   );

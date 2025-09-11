@@ -1,15 +1,33 @@
-import { authConfig } from "@/auth.config";
-import NextAuth from "next-auth";
+// src/middleware.ts
+import { NextResponse } from "next/server";
+import type { NextRequest } from "next/server";
+import { jwtVerify } from "jose";
 
-export default NextAuth(authConfig).auth;
+const secret = new TextEncoder().encode(process.env.JWT_SECRET!);
+
+export async function middleware(req: NextRequest) {
+  const { pathname } = req.nextUrl;
+
+  if (pathname.startsWith("/admin")) {
+    const token = req.cookies.get("admin_token")?.value;
+
+    if (!token) {
+      console.warn("❌ No admin_token found, redirecting...");
+      return NextResponse.redirect(new URL("/admin/auth/login", req.url));
+    }
+
+    try {
+      const { payload } = await jwtVerify(token, secret);
+      console.log("✅ JWT valid:", payload);
+    } catch (e) {
+      console.error("❌ JWT verification failed:", e);
+      return NextResponse.redirect(new URL("/admin/auth/login", req.url));
+    }
+  }
+
+  return NextResponse.next();
+}
 
 export const config = {
-  /*
-   * Match all request paths except for the ones starting with:
-   * - api (API routes)
-   * - _next/static (static files)
-   * - _next/image (image optimization files)
-   * - favicon.ico (favicon file)
-   */
-  matcher: ["/((?!api|_next/static|_next/image|favicon.ico).*)"],
+  matcher: ["/admin/:path*"],
 };
