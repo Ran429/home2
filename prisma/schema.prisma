@@ -32,15 +32,15 @@ model Board {
 // ✅ 갤러리 (워크숍, 출판물, 미디어 보도 등 이미지 중심)
 model Gallery {
   id          Int      @id @default(autoincrement())
-  galleryType String
+  galleryType String   @map("gallerytype")   // ✅ 실제 DB 컬럼명에 매핑
   title       String
   description String?
   thumbnail   String?
   images      Json?
-  isActive    Boolean  @default(true)
-  viewCount   Int      @default(0)
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  isActive    Boolean  @default(true) @map("isactive")
+  viewCount   Int      @default(0) @map("viewcount")
+  createdAt   DateTime @default(now()) @map("createdat")
+  updatedAt   DateTime @updatedAt @map("updatedat")
 
   @@index([galleryType, isActive])
   @@map("td_gallery")
