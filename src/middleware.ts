@@ -1,14 +1,14 @@
 // src/middleware.ts
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
-import jwt from "jsonwebtoken";
+import { jwtVerify } from "jose";
 
-const secret = process.env.JWT_SECRET ?? "default_secret";
+const secret = new TextEncoder().encode(process.env.JWT_SECRET ?? "default_secret");
 
 export async function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
 
-  // ✅ 로그인 관련 경로는 예외 처리
+  // ✅ 로그인 페이지는 예외
   if (pathname.startsWith("/admin/auth")) {
     return NextResponse.next();
   }
@@ -22,7 +22,7 @@ export async function middleware(req: NextRequest) {
     }
 
     try {
-      const payload = jwt.verify(token, secret);
+      const { payload } = await jwtVerify(token, secret);
       console.log("✅ JWT valid:", payload);
     } catch (e) {
       console.error("❌ JWT verification failed:", e);
