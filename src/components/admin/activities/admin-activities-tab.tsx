@@ -46,8 +46,9 @@ export default function AdminActivitiesTab({ currentBoardType, classname }: Prop
           </button>
         </li>
         {/* 정보시스템은 게시판이 아니므로 제외 */}
-        {BoardTypes.filter((boardType: BoardType) => boardType.code !== "INFO").map(
-          (boardType) => (
+        {BoardTypes.filter(
+  (boardType: BoardType) => (boardType.code as string) !== "INFO"
+).map((boardType) => (
             <li
               key={boardType.code}
               className={cn(

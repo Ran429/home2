@@ -8,7 +8,8 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { BoardType, getBoardTypeEnum } from "@/constants/board-type";
+import { BoardType} from "@/constants/board-type";
+import { getBoardTypeEnum } from "@/server/prisma/board.db";
 import { HOVER_CLASSNAME } from "@/lib/classname-util";
 import { yyyymmdd } from "@/lib/time-util";
 import { cn } from "@/lib/utils";
