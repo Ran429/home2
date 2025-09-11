@@ -4,7 +4,6 @@ import { NextResponse } from "next/server";
 // 목록 조회
 export async function GET() {
   const partners = await prisma.partner.findMany({
-    where: { isActive: true },
     orderBy: { sortOrder: "asc" },
   });
   return NextResponse.json(partners);
