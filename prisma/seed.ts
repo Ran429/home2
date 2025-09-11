@@ -74,98 +74,75 @@ await prisma.board.createMany({
   });
 
   // 4. 단일 페이지 (SinglePage)
-  await prisma.singlePage.createMany({
-    data: [
-      {
-        slug: "what-is-vulnerability",
-        title: "인간취약성이란 - 인간취약성연구소",
-        content: `
-          <div class="container mx-auto py-16 px-4">
-            <h1 class="text-3xl font-bold mb-6">인간취약성이란</h1>
-            <p class="text-lg leading-relaxed text-gray-700 mb-4">
-              인간은 누구나 다양한 차원에서 취약성을 가지고 있습니다...
-            </p>
-            <div class="bg-gray-100 border-l-4 border-hvri_primary p-4 text-center text-gray-800 my-6">
-              “취약성을 이해하는 것은 인간을 이해하는 첫걸음이다.”
-            </div>
+// 4. 단일 페이지 (SinglePage)
+await prisma.singlePage.createMany({
+  data: [
+    {
+      slug: "what-is-vulnerability",
+      title: "인간취약성이란 - 인간취약성연구소",
+      content: `
+        <div class="container mx-auto py-16 px-4">
+          <h1 class="text-3xl font-bold mb-6">인간취약성이란</h1>
+          <p class="text-lg leading-relaxed text-gray-700 mb-4">
+            인간은 누구나 다양한 차원에서 취약성을 가지고 있습니다...
+          </p>
+          <div class="bg-gray-100 border-l-4 border-hvri_primary p-4 text-center text-gray-800 my-6">
+            “취약성을 이해하는 것은 인간을 이해하는 첫걸음이다.”
           </div>
-        `,
-      },
-      {
-        slug: "history",
-        title: "연구소 연혁 - 인간취약성연구소",
-        content: `
-          <div class="container mx-auto py-16 px-4">
-            <h1 class="text-3xl font-bold mb-6">연구소 연혁</h1>
-            <p class="text-lg leading-relaxed text-gray-700">
-              인간취약성연구소는 설립 이래 다양한 연구와 사회적 활동을 통해...
-            </p>
-          </div>
-        `,
-      },
-      {
-        slug: "mission",
-        title: "연구소 미션 - 인간취약성연구소",
-        content: `
-          <div class="container mx-auto py-16 px-4">
-            <h1 class="text-3xl font-bold mb-6">연구소 미션</h1>
-            <p class="text-lg leading-relaxed text-gray-700">
-              연구소의 목표와 방향성을 설명하는 기본 텍스트...
-            </p>
-          </div>
-        `,
-      },
-      {
-        slug: "vision",
-        title: "연구소 비전 - 인간취약성연구소",
-        content: `
-          <div class="container mx-auto py-16 px-4">
-            <h1 class="text-3xl font-bold mb-6">연구소 비전</h1>
-            <p class="text-lg leading-relaxed text-gray-700">
-              연구소가 지향하는 미래상을 설명하는 텍스트...
-            </p>
-          </div>
-        `,
-      },
-      {
-        slug: "ethics",
-        title: "윤리헌장 - 인간취약성연구소",
-        content: `
-          <div class="container mx-auto py-16 px-4">
-            <h1 class="text-3xl font-bold mb-6">윤리헌장</h1>
-            <p class="text-lg leading-relaxed text-gray-700">
-              연구소의 윤리적 원칙과 헌장 내용을 서술...
-            </p>
-          </div>
-        `,
-      },
-      {
-        slug: "overview",
-        title: "한눈에 보기 - 인간취약성연구소",
-        content: `
-          <div class="container mx-auto py-16 px-4">
-            <h1 class="text-3xl font-bold mb-6">한눈에 보기</h1>
-            <p class="text-lg leading-relaxed text-gray-700">
-              연구소의 전체 개요를 보여주는 페이지...
-            </p>
-          </div>
-        `,
-      },
-      {
-        slug: "organization",
-        title: "조직도 - 인간취약성연구소",
-        content: `
-          <div class="container mx-auto py-16 px-4">
-            <h1 class="text-3xl font-bold mb-6">조직도</h1>
-            <p class="text-lg leading-relaxed text-gray-700">
-              연구소의 조직 구조 및 운영 체계를 설명...
-            </p>
-          </div>
-        `,
-      },
-    ],
-    skipDuplicates: true,
-  });
+        </div>
+      `,
+    },
+    {
+      slug: "history-and-philosophy",
+      title: "연구소의 연혁과 철학 - 인간취약성연구소",
+      content: `
+        <div class="container mx-auto py-16 px-4">
+          <h1 class="text-3xl font-bold mb-6">연구소의 연혁과 철학</h1>
+          <p class="text-lg leading-relaxed text-gray-700">
+            인간취약성연구소는 설립 이래 다양한 연구와 사회적 활동을 통해...
+          </p>
+        </div>
+      `,
+    },
+    {
+      slug: "at-a-glance",
+      title: "연구소 한눈에 보기 - 인간취약성연구소",
+      content: `
+        <div class="container mx-auto py-16 px-4">
+          <h1 class="text-3xl font-bold mb-6">연구소 한눈에 보기</h1>
+          <p class="text-lg leading-relaxed text-gray-700">
+            연구소의 전체 개요를 보여주는 페이지...
+          </p>
+        </div>
+      `,
+    },
+    {
+      slug: "people",
+      title: "함께하는 이들 - 인간취약성연구소",
+      content: `
+        <div class="container mx-auto py-16 px-4">
+          <h1 class="text-3xl font-bold mb-6">함께하는 이들</h1>
+          <p class="text-lg leading-relaxed text-gray-700">
+            연구소의 조직 구조 및 운영 체계를 설명...
+          </p>
+        </div>
+      `,
+    },
+    {
+      slug: "ethics-charter",
+      title: "윤리 및 운영 헌장 - 인간취약성연구소",
+      content: `
+        <div class="container mx-auto py-16 px-4">
+          <h1 class="text-3xl font-bold mb-6">윤리 및 운영 헌장</h1>
+          <p class="text-lg leading-relaxed text-gray-700">
+            연구소의 윤리적 원칙과 헌장 내용을 서술...
+          </p>
+        </div>
+      `,
+    },
+  ],
+  skipDuplicates: true,
+});
 }
 
 main()

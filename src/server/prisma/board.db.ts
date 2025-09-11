@@ -1,10 +1,11 @@
 import type { MainBoardType } from "@/@types/board-types";
-import { BoardTypeMap, BoardTypes } from "@/constants/board-type"; // ✅ 값 가져오기
-import type { BoardType } from "@/constants/board-type";           // ✅ 타입 가져오기
+import { BoardTypes } from "@/constants/board-type"; // ✅ GALLERY 제거됨
+import type { BoardType } from "@/constants/board-type";
 import type { Board } from "@prisma/client";
 import { prisma } from "./prisma.client";
 
 type BoardTypeValue = BoardType;
+
 /**
  * 메인페이지에서 사용할 게시판 아이템 로드
  */
@@ -21,7 +22,7 @@ async function getMainBoard(boardTypes: string[]) {
         title: true,
       },
       where: {
-        boardType: boardType,
+        boardType,
         isActive: true,
       },
       orderBy: {
@@ -37,28 +38,8 @@ async function getMainBoard(boardTypes: string[]) {
 }
 
 /**
- * 메인페이지에서 사용할 갤러리 아이템 로드
+ * 단일 게시판 아이템 조회
  */
-export const GALLERY_SHOWING_COUNT = 4;
-export async function getMainGalleryItems() {
-  return prisma.board.findMany({
-    select: {
-      id: true,
-      title: true,
-      createdAt: true,
-      images: true,
-    },
-    where: {
-      boardType: BoardTypeMap.GALLERY.code,
-      isActive: true,
-    },
-    orderBy: {
-      createdAt: "desc",
-    },
-    take: GALLERY_SHOWING_COUNT,
-  });
-}
-
 export function getBoardItem(boardId: number) {
   return prisma.board.findFirst({
     where: {
@@ -70,9 +51,6 @@ export function getBoardItem(boardId: number) {
 
 /**
  * 게시물과 이전, 다음 아이템을 같이 불러오는 함수
- * @param boardType
- * @param boardId
- * @returns
  */
 async function getBoardItemWithPrevNext(boardType: string, boardId: number) {
   const item = await prisma.board.findFirst({
@@ -93,9 +71,7 @@ async function getBoardItemWithPrevNext(boardType: string, boardId: number) {
     },
     where: {
       boardType,
-      id: {
-        gt: boardId,
-      },
+      id: { gt: boardId },
       isActive: true,
     },
     take: 1,
@@ -109,22 +85,14 @@ async function getBoardItemWithPrevNext(boardType: string, boardId: number) {
     },
     where: {
       boardType,
-      id: {
-        lt: boardId,
-      },
+      id: { lt: boardId },
       isActive: true,
     },
-    orderBy: {
-      id: "desc",
-    },
+    orderBy: { id: "desc" },
     take: 1,
   });
 
-  return {
-    item,
-    nextItem,
-    prevItem,
-  };
+  return { item, nextItem, prevItem };
 }
 
 export type BoardListItem = Pick<
@@ -138,6 +106,7 @@ export type BoardListItem = Pick<
   | "images"
   | "boardType"
 >;
+
 export async function getBoardItems({
   page,
   boardType,
@@ -159,16 +128,10 @@ export async function getBoardItems({
   if (searchType && keyword) {
     switch (searchType) {
       case "title":
-        searchCriteria = {
-          ...searchCriteria,
-          title: { contains: keyword },
-        };
+        searchCriteria = { ...searchCriteria, title: { contains: keyword } };
         break;
       case "content":
-        searchCriteria = {
-          ...searchCriteria,
-          content: { contains: keyword },
-        };
+        searchCriteria = { ...searchCriteria, content: { contains: keyword } };
         break;
       case "all":
         searchCriteria = {
@@ -192,22 +155,14 @@ export async function getBoardItems({
       images: true,
       boardType: true,
     },
-    where: {
-      ...searchCriteria,
-      isActive: true,
-    },
+    where: { ...searchCriteria, isActive: true },
     skip: (page - 1) * unit,
     take: unit,
-    orderBy: {
-      createdAt: "desc",
-    },
+    orderBy: { createdAt: "desc" },
   });
 
   const totalItemCount = await prisma.board.count({
-    where: {
-      ...searchCriteria,
-      isActive: true,
-    },
+    where: { ...searchCriteria, isActive: true },
   });
 
   return {
@@ -217,6 +172,9 @@ export async function getBoardItems({
   };
 }
 
+/**
+ * 조회수 증가
+ */
 export async function updateViewCount(id: number) {
   await prisma.board.update({
     where: { id },
@@ -228,13 +186,14 @@ export type SearchBoard = Pick<
   Board,
   "id" | "boardType" | "title" | "content" | "createdAt"
 >;
+
 export async function searchBoardItems(keyword: string) {
   const allBoardTypes = BoardTypes.map((type) => type.code);
 
-  const boardMap = new Map<string /* boardType */, SearchBoard[]>();
+  const boardMap = new Map<string, SearchBoard[]>();
   let totalItemCount = 0;
-  for (let i = 0; i < allBoardTypes.length; i++) {
-    const boardType = allBoardTypes[i];
+
+  for (const boardType of allBoardTypes) {
     const boardItems = await prisma.board.findMany({
       where: {
         AND: [
@@ -248,9 +207,7 @@ export async function searchBoardItems(keyword: string) {
           },
         ],
       },
-      orderBy: {
-        createdAt: "desc",
-      },
+      orderBy: { createdAt: "desc" },
       take: 5,
       select: {
         id: true,
@@ -268,15 +225,13 @@ export async function searchBoardItems(keyword: string) {
   return { totalItemCount, boardMap };
 }
 
+/**
+ * 소프트 삭제
+ */
 async function deleteOne(boardId: number) {
-  // soft delete
   return prisma.board.update({
-    data: {
-      isActive: false,
-    },
-    where: {
-      id: boardId,
-    },
+    data: { isActive: false },
+    where: { id: boardId },
   });
 }
 

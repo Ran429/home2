@@ -1,3 +1,4 @@
+///Users/lovek/Documents/GitHub/home2/src/app/(root)/admin/pages/page.tsx
 "use client";
 
 import Link from "next/link";

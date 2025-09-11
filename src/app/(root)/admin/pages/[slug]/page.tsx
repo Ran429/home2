@@ -1,3 +1,4 @@
+///Users/lovek/Documents/GitHub/home2/src/app/(root)/admin/pages/[slug]/page.tsx
 "use client";
 
 import { useEffect, useState } from "react";
