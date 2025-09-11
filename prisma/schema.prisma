@@ -1,44 +1,16 @@
-// This schema is updated for the Institute for Human Vulnerability website.
-// It uses a generic 'Post' model to manage all content types (Type1, Type2, Type4).
-//C:\Users\zeroj\klea-main\home\home2\prisma\schema.prisma
+// prisma/schema.prisma
+// Final schema for Institute for Human Vulnerability
 
 generator client {
   provider = "prisma-client-js"
 }
 
 datasource db {
-  provider   = "postgresql"
-  url        = env("DATABASE_URL")   // 런타임용 (pooler)
+  provider = "postgresql"
+  url      = env("DATABASE_URL")   // Supabase pooler
 }
 
-// A generic model for all content: pages, posts, gallery items, etc.
-model Post {
-  id            Int      @id @default(autoincrement())
-  category      String
-  slug          String   @unique
-  contentType   String   @map("content_type")
-
-  title         String
-  content       String
-  featuredImage Json?    @map("featured_image")
-  images        Json?
-  files         Json?
-
-  viewCount     Int      @default(0) @map("view_count")
-  isActive      Boolean  @default(true) @map("is_active")
-  isImportant   Boolean  @default(false) @map("is_important")
-  createdBy     String   @map("created_by")
-  createdAt     DateTime @default(now()) @map("created_at")
-  updatedAt     DateTime @updatedAt @map("updated_at")
-
-  @@index([category, isActive])
-  @@index([contentType, isActive])
-  @@map("td_post")
-}
-
-//
-// Board 모델 (공지사항, 갤러리, 입찰공고 등 여러 게시판 구분용)
-//
+// ✅ 게시판 (공지사항, 연구성과, 사회공헌활동 등 리스트형)
 model Board {
   id        Int      @id @default(autoincrement())
   boardType String
@@ -49,7 +21,7 @@ model Board {
 
   viewCount Int      @default(0)
   isActive  Boolean  @default(true)
-  createdBy String
+  createdBy String?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
@@ -57,9 +29,24 @@ model Board {
   @@map("td_board")
 }
 
-//
-// Partner 모델 (협력사/파트너 로고 관리)
-//
+// ✅ 갤러리 (워크숍, 출판물, 미디어 보도 등 이미지 중심)
+model Gallery {
+  id          Int      @id @default(autoincrement())
+  galleryType String
+  title       String
+  description String?
+  thumbnail   String?
+  images      Json?
+  isActive    Boolean  @default(true)
+  viewCount   Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([galleryType, isActive])
+  @@map("td_gallery")
+}
+
+// ✅ 파트너 (협력사/파트너 로고 관리)
 model Partner {
   id          Int      @id @default(autoincrement())
   name        String
@@ -75,9 +62,7 @@ model Partner {
   @@map("td_partner")
 }
 
-//
-// 관리자 계정
-//
+// ✅ 관리자 계정
 model AdminAccount {
   id        Int      @id @default(autoincrement())
   userId    String   @unique @map("user_id")
@@ -89,31 +74,16 @@ model AdminAccount {
   @@map("td_admin_account")
 }
 
-//
-// 조직도/멤버
-//
-model Member {
+// ✅ 단일 페이지 (소개, 연혁, 비전, 윤리헌장 등)
+model SinglePage {
   id        Int      @id @default(autoincrement())
-  name      String
-  role      String
-  photoUrl  String?   @map("photo_url")
-  bio       String?
-  isActive  Boolean  @default(true) @map("is_active")
-  sortOrder Int      @default(0)    @map("sort_order")
-  createdAt DateTime @default(now()) @map("created_at")
-  updatedAt DateTime @updatedAt @map("updated_at")
-
-  @@index([isActive, sortOrder])
-  @@map("td_member")
-}
-
-model Page {
-  id        Int      @id @default(autoincrement())
-  slug      String   @unique   // 예: "introduction", "ethics-charter"
+  slug      String   @unique
   title     String
-  content   String   // HTML or Markdown
-
-  isActive  Boolean  @default(true)   // 필요할 때 노출/비노출 구분
+  content   String
+  metaDescription String?
+  isActive  Boolean  @default(true)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  @@map("SinglePage") // Supabase 테이블명 그대로 매핑
 }
