@@ -1,6 +1,8 @@
+///Users/lovek/Documents/GitHub/home2/src/app/(root)/achievements/publications-reports/page.tsx
 import { getGalleryItems } from "@/server/prisma/gallery.db";
 import { GalleryTypeMap } from "@/constants/gallery-type";
 import BoardGallery from "@/components/board/BoardGallery";
+export const dynamic = "force-dynamic";
 
 export const metadata = {
   title: "출판물 및 보고서 - 인간취약성연구소",

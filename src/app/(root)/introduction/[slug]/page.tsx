@@ -1,5 +1,6 @@
 import { prisma } from "@/server/prisma/prisma.client";
 import { notFound } from "next/navigation";
+export const dynamic = "force-dynamic";
 
 // 페이지 타이틀을 동적으로 설정합니다.
 export async function generateMetadata({

@@ -1,6 +1,9 @@
 import { prisma } from "@/server/prisma/prisma.client";
 import { notFound } from "next/navigation";
 
+export const dynamic = "force-dynamic";
+
+
 export default async function SinglePageView({ slug }: { slug: string }) {
   const page = await prisma.singlePage.findUnique({ where: { slug } });
 

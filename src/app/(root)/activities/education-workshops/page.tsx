@@ -1,7 +1,9 @@
+///Users/lovek/Documents/GitHub/home2/src/app/(root)/activities/education-workshops/page.tsx
 import { getGalleryItems } from "@/server/prisma/gallery.db";
 import { GalleryTypeMap } from "@/constants/gallery-type";
 import { GalleryViewMap } from "@/constants/gallery-view-map";
 import BoardGallery from "@/components/board/BoardGallery";
+export const dynamic = "force-dynamic";
 
 export const metadata = {
   title: "교육 및 워크숍 - 인간취약성연구소",

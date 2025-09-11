@@ -3,6 +3,7 @@ import { BoardTypeMap } from "@/constants/board-type";
 import { BoardViewMap } from "@/constants/board-view-map";
 import BoardList from "@/components/board/BoardList";
 import BoardGallery from "@/components/board/BoardGallery";
+export const dynamic = "force-dynamic";
 
 export const metadata = {
   title: "사회공헌활동 - 인간취약성연구소",

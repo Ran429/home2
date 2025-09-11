@@ -1,4 +1,5 @@
 export const metadata = { title: "파트너십 - 인간취약성연구소" };
+export const dynamic = "force-dynamic";
 
 export default function PartnershipsPage() {
   return (
